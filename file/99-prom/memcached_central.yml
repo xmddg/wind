@@ -1,0 +1,26 @@
+groups:
+- name: MemcacheAlerts
+  rules:
+  - alert: MemcacheNotRunning
+    expr: memcached_up != 1
+    for: 1s
+    labels:
+      severity: Critical
+      description_id: 801
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: memcached
+    annotations:
+      description: 'Memcache on {{$labels.hostname}} is not running.'
+      description_template: >-
+        Memcache on %(hostname)s is not running.
+      summary: Memcache node not running on {{$labels.hostname}}
+      summary_template: Memcache node not running on %(hostname)s
+      suggestion: >-
+        Please check whether memcache service of {{ $labels.hostname }} are working correctly.
+      suggestion_template: >-
+        Please check whether memcache service of %(hostname)s are working correctly.
+      resource_type: physical.node
+      sub_resource_type: memcached
+      alert_target: "{{ $labels.hostname }}"
+      alert_target_id: "{{ $labels.serialnumber }}"

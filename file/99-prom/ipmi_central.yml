@@ -1,0 +1,185 @@
+---
+groups:
+  - name: ipmiAlarms
+    rules:
+      - alert: PhysicalNodePowerIsOff
+        expr: ipmi_chassis_power_state == 0
+        labels:
+          severity: Critical
+          description_id: 204
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: ipmi
+        annotations:
+          description: >-
+            the power of {{ $labels.instance }} is off
+          summary: >-
+            the power of {{ $labels.instance }} is off
+          suggestion: >-
+            the power of {{ $labels.instance }} is off, please check it
+          description_template: >-
+            the power of %(instance)s is off
+          summary_template: >-
+            the power of %(instance)s is off
+          suggestion_template: >-
+            the power of %(instance)s is off, please check it
+          resource_type: physical.node
+          sub_resource_type: ipmi
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.instance }}"
+      - alert: PhysicalNodeFanSpeedSensorCritical
+        expr: ipmi_fan_speed_state == 2
+        for: 5m
+        labels:
+          severity: Critical
+          description_id: 205
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: ipmi
+        annotations:
+          description: >-
+            fan speed sensor {{ $labels.name }} on {{ $labels.instance }} is down
+          summary: >-
+            fan speed sensor {{ $labels.name }} on {{ $labels.instance }} is down
+          suggestion: >-
+            fan speed sensor {{ $labels.name }} on {{ $labels.instance }} signals Critical, please check it
+          description_template: >-
+            fan speed sensor %(name)s on %(instance)s is down
+          summary_template: >-
+            fan speed sensor %(name)s on %(instance)s is down
+          suggestion_template: >-
+            fan speed sensor %(name)s on %(instance)s signals Critical, please check it
+          resource_type: physical.node
+          sub_resource_type: ipmi
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.instance }}"
+      - alert: PhysicalNodeTemperatureSensorCritical
+        expr: ipmi_temperature_state == 2
+        for: 5m
+        labels:
+          severity: Critical
+          description_id: 206
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: ipmi
+        annotations:
+          description: >-
+            temperature speed sensor {{ $labels.name }} on {{ $labels.instance }} signals critical
+          summary: >-
+            temperature speed sensor {{ $labels.name }} on {{ $labels.instance }} signals critical
+          suggestion: >-
+            temperature speed sensor {{ $labels.name }} on {{ $labels.instance }} signals critical, please check it
+          description_template: >-
+            temperature speed sensor %(name)s on %(instance)s signals critical
+          summary_template: >-
+            temperature speed sensor %(name)s on %(instance)s signals critical
+          suggestion_template: >-
+            temperature speed sensor %(name)s on %(instance)s signals critical, please check it
+          resource_type: physical.node
+          sub_resource_type: ipmi
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.instance }}"
+      - alert: PhysicalNodeCpuUsageSensorCritical
+        expr: ipmi_sensor_state{name="CPU Usage"} == 2
+        for: 5m
+        labels:
+          severity: Critical
+          description_id: 207
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: ipmi
+        annotations:
+          description: >-
+            CPU usage sensor {{ $labels.name }} on {{ $labels.instance }} signals critical
+          summary: >-
+            CPU usage sensor {{ $labels.name }} on {{ $labels.instance }} signals critical
+          suggestion: >-
+            CPU usage sensor {{ $labels.name }} on {{ $labels.instance }} signals critical, please check it
+          description_template: >-
+            CPU usage sensor %(name)s on %(instance)s signals critical
+          summary_template: >-
+            CPU usage sensor %(name)s on %(instance)s signals critical
+          suggestion_template: >-
+            CPU usage sensor %(name)s on %(instance)s signals critical, please check it
+          resource_type: physical.node
+          sub_resource_type: ipmi
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.instance }}"
+      - alert: PhysicalNodeMemUsageSensorCritical
+        expr: ipmi_sensor_state{name="MEM Usage"} == 2
+        for: 5m
+        labels:
+          severity: Critical
+          description_id: 208
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: ipmi
+        annotations:
+          description: >-
+            memory usage sensor {{ $labels.name }} on {{ $labels.instance }} signals critical
+          summary: >-
+            memory usage sensor {{ $labels.name }} on {{ $labels.instance }} signals critical
+          suggestion: >-
+            memory usage sensor {{ $labels.name }} on {{ $labels.instance }} signals critical, please check it
+          description_template: >-
+            memory usage sensor %(name)s on %(instance)s signals critical
+          summary_template: >-
+            memory usage sensor %(name)s on %(instance)s signals critical
+          suggestion_template: >-
+            memory usage sensor %(name)s on %(instance)s signals critical, please check it
+          resource_type: physical.node
+          sub_resource_type: ipmi
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.instance }}"
+      - alert: PhysicalNodeCpuUsageHigh
+        expr: ipmi_sensor_value{name="CPU Usage"} > 85
+        for: 5m
+        labels:
+          severity: Critical
+          description_id: 209
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: ipmi
+        annotations:
+          description: >-
+            {{ $labels.instance }} CPU usage above 85% (current value: {{ $value }})
+          summary: >-
+            {{ $labels.instance }} CPU usgae high
+          suggestion: >-
+            {{ $labels.instance }} CPU usgae high, pay attention to manage the node load
+          description_template: >-
+            %(instance)s CPU usage above 85% (current value: {{ $value }})
+          summary_template: >-
+            %(instance)s CPU usgae high
+          suggestion_template: >-
+            %(instance)s CPU usgae high, pay attention to manage the node load
+          resource_type: physical.node
+          sub_resource_type: ipmi
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.instance }}"
+      - alert: PhysicalNodeMemUsageHigh
+        expr: ipmi_sensor_value{name="MEM Usage"} > 85
+        for: 5m
+        labels:
+          severity: Critical
+          description_id: 210
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: ipmi
+        annotations:
+          description: >-
+            {{ $labels.instance }} MEM usage above 85% (current value: {{ $value }})
+          summary: >-
+            {{ $labels.instance }} MEM usgae high
+          suggestion: >-
+            {{ $labels.instance }} MEM usage high, pay attention to manage the node load
+          description_template: >-
+            %(instance)s MEM usage above 85% (current value: {{ $value }})
+          summary_template: >-
+            %(instance)s MEM usgae high
+          suggestion_template: >-
+            %(instance)s MEM usgae high, pay attention to manage the node load
+          resource_type: physical.node
+          sub_resource_type: ipmi
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.instance }}"

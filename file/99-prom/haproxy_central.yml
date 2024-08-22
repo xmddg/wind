@@ -1,0 +1,30 @@
+---
+groups:
+  - name: haproxyAlarms
+    rules:
+      - alert: serviceDown
+        expr: haproxy_server_up == 0
+        for: 1m
+        labels:
+          severity: Critical
+          description_id: 341
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: haproxy
+        annotations:
+          description: >-
+            {{ $labels.backend }} backend of {{ $labels.hostname }} server down
+          description_template: >-
+            %(backend)s backend of %(hostname)s server down
+          summary: >-
+            {{ $labels.backend }} backend of {{ $labels.hostname }} server down
+          summary_template: >-
+            %(backend)s backend of %(hostname)s server down
+          suggestion: >-
+            {{ $labels.backend }} backend of {{ $labels.hostname }} server down, please check
+          suggestion_template: >-
+            %(backend)s backend of %(hostname)s server down, please check
+          resource_type: physical.node
+          sub_resource_type: haproxy
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

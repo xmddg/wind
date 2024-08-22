@@ -1,0 +1,146 @@
+###
+# Recording Rules
+
+groups:
+- name: mysqlRecording
+  rules:
+# Record "Transactions per second"
+  - record: job:mysql_transactions:rate5m
+    expr: sum(rate(mysql_global_status_commands_total{command=~"(commit|rollback)"}[5m])) without (command)
+
+# Galera Alerts
+- name: GaleraAlerts
+  rules:
+  - alert: MySQLGaleraNotReady
+    expr: mysql_global_status_wsrep_ready != 1
+    for: 5m
+    labels:
+      severity: Warning
+      description_id: 306
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: process
+    annotations:
+      description: '{{$labels.job}} on {{$labels.instance}} is not ready.'
+      summary: Galera cluster node not ready
+      suggestion: >-
+        Please wait for the cluster status to be stable or
+        log in to the node to view the container status.
+      description_template: >-
+        %(hostname)s on %(instance)s is not ready.
+      summary_template: Galera cluster node not ready
+      suggestion_template: >-
+        Please wait for the cluster status to be stable or
+        log in to the node to view the container status.
+      resource_type: physical.node
+      sub_resource_type: process
+      alert_target: "{{ $labels.hostname }}"
+      alert_target_id: "{{ $labels.serialnumber }}"
+  - alert: MySQLGaleraOutOfSync
+    expr: (mysql_global_status_wsrep_local_state != 4 and mysql_global_variables_wsrep_desync
+      == 0)
+    for: 5m
+    labels:
+      severity: Warning
+      description_id: 307
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: process
+    annotations:
+      description: '{{$labels.job}} on {{$labels.instance}} is not in sync ({{$value}}
+        != 4).'
+      summary: Galera cluster node out of sync
+      suggestion: >-
+        Try to adjust some configuration items or restart the cluster.
+      description_template: >-
+        %(job)s on %(instance)s is not in sync (%(value)s != 4).
+      summary_template: Galera cluster node out of sync
+      suggestion_template: >-
+        Try to adjust some configuration items or restart the cluster.
+      resource_type: physical.node
+      sub_resource_type: process
+      alert_target: "{{ $labels.hostname }}"
+      alert_target_id: "{{ $labels.serialnumber }}"
+  - alert: MySQLGaleraDonorFallingBehind
+    expr: (mysql_global_status_wsrep_local_state == 2 and mysql_global_status_wsrep_local_recv_queue
+      > 100)
+    for: 5m
+    labels:
+      severity: Warning
+      description_id: 308
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: process
+    annotations:
+      description: '{{$labels.job}} on {{$labels.instance}} is a donor (hotbackup)
+        and is falling behind (queue size {{$value}}).'
+      summary: xtradb cluster donor node falling behind
+      suggestion: >-
+        Set `set global wsrep_desync = ON;` in mysqld.
+      description_template: >-
+        %(job)s on %(instance)s is a donor (hotbackup)
+        and is falling behind (queue size %(value)s).
+      summary_template: xtradb cluster donor node falling behind
+      suggestion_template: >-
+        Set `set global wsrep_desync = ON;` in mysqld.
+      resource_type: physical.node
+      sub_resource_type: process
+      alert_target: "{{ $labels.hostname }}"
+      alert_target_id: "{{ $labels.serialnumber }}"
+  - alert: MySQLInnoDBLogWaits
+    expr: rate(mysql_global_status_innodb_log_waits[15m]) > 10
+    labels:
+      severity: Warning
+      description_id: 309
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: process
+    annotations:
+      description: The innodb logs are waiting for disk at a rate of {{$value}} second
+      summary: MySQL innodb log writes stalling
+      suggestion: MySQL innodb log writes stalling.
+      description_template: The innodb logs are waiting for disk at a rate of %(value)s second
+      summary_template: MySQL innodb log writes stalling
+      suggestion_template: MySQL innodb log writes stalling.
+      resource_type: physical.node
+      sub_resource_type: process
+      alert_target: "{{ $labels.hostname }}"
+      alert_target_id: "{{ $labels.serialnumber }}"
+  - alert: MySQLSlowQuery
+    expr: changes(mysql_global_status_slow_queries[1h]) > 0
+    labels:
+      severity: Critical
+      description_id: 351
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: mysql
+    annotations:
+      description: Mysql cluster has slow query
+      summary: Mysql cluster has slow query
+      suggestion: Mysql cluster has slow query, please check
+      description_template: Mysql cluster has slow query
+      summary_template: Mysql cluster has slow query
+      suggestion_template: Mysql cluster has slow query, please check
+      resource_type: physical.node
+      sub_resource_type: mysql
+      alert_target: "{{ $labels.hostname }}"
+      alert_target_id: "{{ $labels.serialnumber }}"
+  - alert: MariadbClusterLossNode
+    expr: mysql_global_status_wsrep_cluster_size < 3
+    labels:
+      severity: Critical
+      description_id: 252
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: mysql
+    annotations:
+      description: Mariadb cluster size is less than 3
+      summary: Mariadb cluster size is less than 3
+      suggestion: SMariadb cluster size is less than 3
+      description_template: Mariadb cluster size is less than 3, please check
+      summary_template: Mariadb cluster size is less than 3, please check
+      suggestion_template: Mariadb cluster size is less than 3, please check
+      resource_type: physical.node
+      sub_resource_type: mysql
+      alert_target: "{{ $labels.hostname }}"
+      alert_target_id: "{{ $labels.serialnumber }}"

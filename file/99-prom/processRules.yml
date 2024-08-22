@@ -1,0 +1,32 @@
+{% macro processRules(serviceName, nodeRole, interval) %}
+      - alert: [[ serviceName|smart_capitalize ]]IsNotRunningOn[[ nodeRole|capitalize ]]
+        expr: sum(node_process_total{node_role="[[ nodeRole ]]", name="[[ serviceName ]]"}) by (hostname, name, serialnumber) == 0
+        for: [[ interval ]]
+        labels:
+          severity: Critical
+          description_id: 301
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: process
+        annotations:
+          description: >-
+            {{ $labels.name }} is down on node {{ $labels.hostname }}.
+          summary: >-
+            {{ $labels.name }} is down on node {{ $labels.hostname }}.
+          description_template: >-
+            %(name)s is down on node %(hostname)s.
+          summary_template: >-
+            %(name)s is down on node %(hostname)s.
+          suggestion: >-
+            Please login the host {{ $labels.hostname }} to see detail via
+            {{ $labels.name }} log, then fix faults according to error
+            messages.
+          suggestion_template: >-
+            Please login the host %(hostname)s to see detail via
+            %(name)s log, then fix faults according to error
+            messages.
+          resource_type: physical.node
+          sub_resource_type: process
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+{% endmacro %}

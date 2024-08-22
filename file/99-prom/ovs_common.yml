@@ -1,0 +1,28 @@
+---
+groups:
+  - name: ovsAlarms
+    rules:
+      - alert: ovsPortIsDown
+        expr: ovs_port_up == 0
+        for: 1m
+        labels:
+          severity: Critical
+          description_id: 107
+          tenant: __cluster__
+          resource_type: virtual.network
+          sub_resource_type: link
+        annotations:
+          description: "OpenVSwitch Port {{ $labels.name }} on host {{ $labels.hostname }} is down"
+          summary: "OpenVSwitch Port {{ $labels.name }} on host {{ $labels.hostname }} is down"
+          description_template: "OpenVSwitch Port %(name)s on host %(hostname)s is down"
+          summary_template: "OpenVSwitch Port %(name)s on host %(hostname)s is down"
+          suggestion: >-
+            Please check whether the configuration of {{ $labels.name }} on {{ $labels.hostname }}
+            is correct and try to make the port up.
+          suggestion_template: >-
+            Please check whether the configuration of %(name)s on %(hostname)s
+            is correct and try to make the port up.
+          resource_type: virtual.network
+          sub_resource_type: link
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

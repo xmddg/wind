@@ -1,0 +1,28 @@
+---
+groups:
+  - name: ntpAlarms
+    rules:
+      - alert: ntpIsNotSynchronizd
+        expr: ntp_server_synchronized == 0
+        for: 1m
+        labels:
+          severity: Warning
+          description_id: 106
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: ntp
+        annotations:
+          description: "NTP Server for {{ $labels.hostname }} is not synchronizd"
+          summary: "NTP Server for {{ $labels.hostname }} is not synchronizd"
+          description_template: "NTP Server for %(hostname)s is not synchronizd"
+          summary_template: "NTP Server for %(hostname)s is not synchronizd"
+          suggestion: >-
+            Please check whether ntp service of {{ $labels.hostname }} are working
+            correctly and whether the link between them can communicate.
+          suggestion_template: >-
+            Please check whether ntp service of %(hostname)s are working
+            correctly and whether the link between them can communicate.
+          resource_type: physical.network
+          sub_resource_type: ntp
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

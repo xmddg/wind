@@ -1,0 +1,127 @@
+---
+groups:
+  - name: openstack exporter
+    rules:
+      # total
+      - record: openstack:cpu:total
+        expr: sum(os_nova_hypervisor_vcpus_total)
+      - record: openstack:cpu:used
+        expr: sum(os_nova_hypervisor_vcpus_used)
+      - record: openstack:memory:total
+        expr: sum(os_nova_hypervisor_memory_total)
+      - record: openstack:memory:used
+        expr: sum(os_nova_hypervisor_memory_used)
+      - record: openstack:host:total
+        expr: count(os_nova_services_state{binary="nova-compute", services_state='up'})
+      - record: openstack:host:up
+        expr: count(os_nova_services_state{binary="nova-compute", services_state="up"} == 1)
+      - record: openstack:host:has_vm
+        expr: count(os_nova_hypervisor_vm_total > 0)
+      - record: openstack:host:up:rate
+        expr: count(os_nova_services_state{binary="nova-compute", services_state="up"} == 1) / count(os_nova_services_state{binary="nova-compute", services_state='up'})
+      - record: openstack:host:has_vm:rate
+        expr: count(os_nova_hypervisor_vm_total > 0) / count(os_nova_hypervisor_vm_total)
+      - record: openstack:vm:total
+        expr: sum(os_nova_hypervisor_vm_total)
+      - record: openstack:storage:free
+        expr: sum(os_nova_hypervisor_free_disk_gb)
+      - record: openstack:storage:used
+        expr: sum(os_nova_hypervisor_local_gb_used)
+      - record: openstack:storage:total
+        expr: sum(os_nova_hypervisor_local_gb)
+      - record: openstack:disk:used:rate
+        expr: sum(os_nova_hypervisor_local_gb_used) / sum(os_nova_hypervisor_local_gb)
+      - record: openstack:bandwidth:egress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_kbps{direction="egress"}) + sum(os_nova_hypervisor_ovs_bandwidth_kbps{direction="egress"})
+      - record: openstack:bandwidth:ingress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_kbps{direction="ingress"}) + sum(os_nova_hypervisor_ovs_bandwidth_kbps{direction="ingress"})
+      - record: openstack:bandwidth:distributable:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_total_kbps{direction="egress"}) + sum(os_nova_hypervisor_sriov_bandwidth_total_kbps{direction="egress"})
+      - record: openstack:bandwidth:distributable:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_total_kbps{direction="ingress"}) + sum(os_nova_hypervisor_sriov_bandwidth_total_kbps{direction="ingress"})
+      - record: openstack:bandwidth:used:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_used{direction="egress"}) + sum(os_nova_hypervisor_sriov_bandwidth_used{direction="egress"})
+      - record: openstack:bandwidth:used:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_used{direction="ingress"}) + sum(os_nova_hypervisor_sriov_bandwidth_used{direction="ingress"})
+      # availablility zone
+      - record: openstack:availability_zone:cpu:total
+        expr: sum(os_nova_hypervisor_vcpus_total) by (availability_zone)
+      - record: openstack:availability_zone:cpu:used
+        expr: sum(os_nova_hypervisor_vcpus_used) by (availability_zone)
+      - record: openstack:availability_zone:memory:total
+        expr: sum(os_nova_hypervisor_memory_total) by (availability_zone)
+      - record: openstack:availability_zone:memory:used
+        expr: sum(os_nova_hypervisor_memory_used) by (availability_zone)
+      - record: openstack:availability_zone:host:total
+        expr: count(os_nova_services_state{binary='nova-compute', services_state='up'}) by (zone)
+      - record: openstack:availability_zone:host:up
+        expr: count(os_nova_services_state{binary='nova-compute', services_state='up'} == 1) by (zone)
+      - record: openstack:availability_zone:host:up:rate
+        expr: count(os_nova_services_state{binary='nova-compute', services_state='up'} == 1) by (zone) / count(os_nova_services_state{binary='nova-compute', services_state='up'}) by (zone)
+      - record: openstack:availability_zone:host:has_vm
+        expr: count(os_nova_hypervisor_vm_total > 0) by (availability_zone)
+      - record: openstack:availability_zone:host:has_vm:rate
+        expr: count(os_nova_hypervisor_vm_total > 0) by (availability_zone) / count(os_nova_hypervisor_vm_total) by (availability_zone)
+      - record: openstack:availability_zone:vm:total
+        expr: sum(os_nova_hypervisor_vm_total) by (availability_zone)
+      - record: openstack:availability_zone:ovs:bandwidth:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_kbps{direction='egress'}) by (availability_zone)
+      - record: openstack:availability_zone:ovs:bandwidth:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_kbps{direction='ingress'}) by (availability_zone)
+      - record: openstack:availability_zone:sriov:bandwidth:egress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_kbps{direction='egress'}) by (availability_zone)
+      - record: openstack:availability_zone:sriov:bandwidth:ingress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_kbps{direction='ingress'}) by (availability_zone)
+      - record: openstack:availability_zone:ovs:bandwidth:distributable:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_total_kbps{direction='egress'}) by (availability_zone)
+      - record: openstack:availability_zone:ovs:bandwidth:distributable:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_total_kbps{direction='ingress'}) by (availability_zone)
+      - record: openstack:availability_zone:sriov:bandwidth:distributable:egress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_total_kbps{direction='egress'}) by (availability_zone)
+      - record: openstack:availability_zone:sriov:bandwidth:distributable:ingress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_total_kbps{direction='ingress'}) by (availability_zone)
+      - record: openstack:availability_zone:ovs:bandwidth:used:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_used{direction='egress'}) by (availability_zone)
+      - record: openstack:availability_zone:ovs:bandwidth:used:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_used{direction='ingress'}) by (availability_zone)
+      - record: openstack:availability_zone:sriov:bandwidth:used:egress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_used{direction='egress'}) by (availability_zone)
+      - record: openstack:availability_zone:sriov:bandwidth:used:ingress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_used{direction='ingress'}) by (availability_zone)
+      # host aggregate
+      - record: openstack:host_aggregate:cpu:total
+        expr: os_nova_hostaggregate_vcpus_total
+      - record: openstack:host_aggregate:cpu:used
+        expr: os_nova_hostaggregate_vcpus_used
+      - record: openstack:host_aggregate:memory:total
+        expr: os_nova_hostaggregate_memory_total
+      - record: openstack:host_aggregate:memory:used
+        expr: os_nova_hostaggregate_memory_used
+      - record: openstack:host_aggregate:host:list
+        expr: os_nova_hostaggregate_host
+      - record: openstack:host_aggregate:vm:total
+        expr: os_nova_hostaggregate_vm_total
+      - record: openstack:host_aggregate:ovs:bandwidth:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_kbps{direction='egress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:ovs:bandwidth:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_kbps{direction='ingress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:sriov:bandwidth:egress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_kbps{direction='egress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:sriov:bandwidth:ingress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_kbps{direction='ingress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:ovs:bandwidth:distributable:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_total_kbps{direction='egress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:ovs:bandwidth:distributable:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_total_kbps{direction='ingress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:sriov:bandwidth:distributable:egress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_total_kbps{direction='egress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:sriov:bandwidth:distributable:ingress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_total_kbps{direction='ingress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:ovs:bandwidth:used:egress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_used{direction='egress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:ovs:bandwidth:used:ingress:total
+        expr: sum(os_nova_hypervisor_ovs_bandwidth_used{direction='ingress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:sriov:bandwidth:used:egress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_used{direction='egress'}) by (host_aggregate)
+      - record: openstack:host_aggregate:sriov:bandwidth:used:ingress:total
+        expr: sum(os_nova_hypervisor_sriov_bandwidth_used{direction='ingress'}) by (host_aggregate)

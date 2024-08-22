@@ -1,0 +1,28 @@
+---
+groups:
+  - name: chronyAlarms
+    rules:
+      - alert: chronyIsNotSynchronizd
+        expr: chrony_server_synchronized == 0
+        for: 1m
+        labels:
+          severity: Warning
+          description_id: 105
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: chrony
+        annotations:
+          description: "Chrony Server for {{ $labels.hostname }} is not synchronizd"
+          summary: "Chrony Server for {{ $labels.hostname }} is not synchronizd"
+          description_template: "Chrony Server for %(hostname)s is not synchronizd"
+          summary_template: "Chrony Server for %(hostname)s is not synchronizd"
+          suggestion: >-
+            Please check whether chrony service of {{ $labels.hostname }} are working
+            correctly and whether the link between them can communicate.
+          suggestion_template: >-
+            Please check whether chrony service of %(hostname)s are working
+            correctly and whether the link between them can communicate.
+          resource_type: physical.network
+          sub_resource_type: chrony
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

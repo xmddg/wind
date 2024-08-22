@@ -1,0 +1,64 @@
+---
+groups:
+  - name: vmAlarms
+    rules:
+      - alert: vmIsError
+        expr: os_instance_vm_state{state = 'error'} == 1
+        for: 1s
+        labels:
+          severity: Critical
+          description_id: 401
+          tenant: __cluster__
+          resource_type: virtual.vm
+          sub_resource_type: system
+        annotations:
+          description: "Instance: {{ $labels.instance }} status error"
+          summary: "Instance: {{ $labels.instance }} status error"
+          description_template: "Instance: {{ $labels.instance }} status error"
+          summary_template: "Instance: {{ $labels.instance }} status error"
+          suggestion: >-
+            Please check the instance: {{ $labels.hostname }} status
+          suggestion_template: >-
+            Please check the instance: %(instance_uuid)s status
+          resource_type: virtual.vm
+          sub_resource_type: system
+          alert_target: "{{ $labels.instance_name }}"
+          alert_target_id: "{{ $labels.instance_uuid }}"
+      - alert: vmIsDown
+        expr: probe_success{type = 'Hypervisor'} == 0
+        for: 1s
+        labels:
+          severity: Critical
+          description_id: 402
+          tenant: __cluster__
+          resource_type: virtual.vm
+          sub_resource_type: system
+        annotations:
+          description: |
+            Since physical node {{ $labels.hostname }} is down. Following virtual machine is down too:
+            {{ range printf "os_nova_instance_info{hypervisor_hostname='%s'}" $labels.hostname | query }}
+            instance_uuid {{ .Labels.uuid }} instance_name {{ .Labels.name }};
+            {{ end }}
+          description_template: |
+            Since physical node %(hostname) is down. Following virtual machine is down too:
+            {{ range printf "os_nova_instance_info{hypervisor_hostname='%s'}" $labels.hostname | query }}
+            instance_uuid %(uuid)s instance_name %(name)s;
+            {{ end }}
+          summary: |
+            Since physical node {{ $labels.hostname }} is down. Following virtual machine is down too:
+            {{ range printf "os_nova_instance_info{hypervisor_hostname='%s'}" $labels.hostname | query }}
+            instance_uuid {{ .Labels.uuid }} instance_name {{ .Labels.name }};
+            {{ end }}
+          summary_template: |
+            Since physical node %(hostname) is down. Following virtual machine is down too:
+            {{ range printf "os_nova_instance_info{hypervisor_hostname='%s'}" $labels.hostname | query }}
+            instance_uuid %(uuid)s instance_name %(name)s;
+            {{ end }}
+          suggestion: >-
+            Please check hypervisor {{ $labels.hostname }}.
+          suggestion_template: >-
+            Please check hypervisor %(hostname)s.
+          resource_type: virtual.vm
+          sub_resource_type: system
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

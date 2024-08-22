@@ -1,0 +1,55 @@
+---
+groups:
+  - name: vmhaAlarms
+    rules:
+      # NOTE: Using ComputeLost alert to check network connectivity.
+      # If the value of probe_success is 0, vmha is triggered.
+      - alert: ComputeLost
+        expr: probe_success{job="blackbox_exporter_icmp"} == 0
+        for: 10m
+        labels:
+          vmha_action: evacuate
+          severity: Critical
+          description_id: 601
+          host: "{{ $labels.hostname }}"
+        annotations:
+          description: >-
+            the {{ $labels.hostname }} node management network is down.
+          summary: >-
+            the {{ $labels.hostname }} node management network is down.
+          suggestion: >-
+            Hypervisor {{ $labels.hostname }} is down.
+          resource_type: blackbox_exporter
+          sub_resource_type: icmp
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+
+#      # NOTE: Using nova-compute service to check compute node state.
+#      # If the value of nova_compute state is 0, vmha is triggered.
+#      - alert: [[ 'nova-compute'|smart_capitalize ]]ServiceIsDown
+#        expr: os_nova_services_state{binary="nova-compute",services_state="down"} == 1
+#        for: 10m
+#        labels:
+#          vmha_action: evacuate
+#          severity: Critical
+#          description_id: 601
+#          tenant: __cluster__
+#          resource_type: virtual.openstack
+#          sub_resource_type: service
+#        annotations:
+#          description: >-
+#            the nova-compute service on {{ $labels.host }} is down.
+#          summary: >-
+#            the nova-compute service on {{ $labels.host }} is down.
+#          description_template: >-
+#            the nova-compute service on %(host)s is down
+#          summary_template: >-
+#            the nova-compute service on %(host)s is down
+#          suggestion: >-
+#            Hypervisor {{ $labels.host }} is down.
+#          suggestion_template: >-
+#            Hypervisor %(host)s is down.
+#          resource_type: virtual.openstack
+#          sub_resource_type: service
+#          alert_target: "{{ $labels.host }}"
+#          alert_target_id: "{{ $labels.serialnumber }}"

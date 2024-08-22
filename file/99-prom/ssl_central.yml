@@ -1,0 +1,59 @@
+---
+groups:
+  - name: sslAlarms
+    rules:
+      - alert: certificateExpirationIsWarning
+        expr: >
+          ((ssl_cert_not_after - time() < 86400 * 30) * on (instance,issuer_cn,serial_no) group_left (dnsnames) ssl_cert_subject_alternative_dnsnames) * on (instance,issuer_cn,serial_no) group_left (subject_cn) ssl_cert_subject_common_name
+        for: 24h
+        labels:
+          severity: Warning
+          description: 502
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: ssl
+        annotations:
+          description: >-
+            Certificate will expire in less than 30 days
+          summary: >-
+            Certificate will expire in less than 30 days
+          suggestion: >-
+            Please update the certificate, the certificate will expire in less than 30 days.
+          description_template: >-
+            Certificate will expire in less than 30 days
+          summary_template: >-
+            Certificate will expire in less than 30 days"
+          suggestion_template: >-
+            Please update the certificate, the certificate will expire in less than 30 days.
+          resource_type: physical.network
+          sub_resource_type: ssl
+          alert_target: "{{ $labels.instance }}"
+
+      - alert: sslInstanceCanNotConnect
+        expr: avg_over_time(ssl_tls_connect_success[10m]) == 0
+        labels:
+          severity: Warning
+          description: 501
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: ssl
+        annotations:
+          description: >-
+            Failed to create a valid SSL connection with instance {{ $labels.instance }}
+            of job {{ $labels.job }}
+          summary: >-
+            Failed to create a valid SSL connection with instance {{ $labels.instance }}
+            of job {{ $labels.job }}
+          suggestion: >-
+            please check the connection to {{ $labels.instance }}
+          description_template: >-
+            Failed to create a valid SSL connection with instance %(instance)s
+            of job %(job)s
+          summary_template: >-
+            Failed to create a valid SSL connection with instance %(instance)s
+            of job %(job)s
+          suggestion_template: >-
+            please check the connection to %(instance)s
+          resource_type: physical.network
+          sub_resource_type: ssl
+          alert_target: "{{ $labels.instance }}"

@@ -1,0 +1,160 @@
+---
+groups:
+  - name: rabbimqAlarms
+    rules:
+      - alert: rabbitmqMemoryUsageOverflow
+        expr: rabbitmq_node_mem_alarm == 1
+        for: 1m
+        labels:
+          severity: Critical
+          description_id: 310
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+        annotations:
+          description: "Rabbitmq Server for {{ $labels.hostname }} send a memory alarm"
+          description_template: "Rabbitmq Server for %(hostname)s send a memory alarm"
+          summary: "Rabbitmq Server for {{ $labels.hostname }} send a memory alarm"
+          summary_template: "Rabbitmq Server for %(hostname)s send a memory alarm"
+          suggestion: >-
+            Please check whether rabbitmq service of {{ $labels.hostname }} are working
+            correctly and whether the queue message did not pile up.
+          suggestion_template: >-
+            Please check whether rabbitmq service of %(hostname)s are working
+            correctly and whether the queue message did not pile up.
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: rabbitmqFreeDiskSpaceAlarm
+        expr: rabbitmq_node_disk_free_alarm == 1
+        for: 1m
+        labels:
+          severity: Critical
+          description_id: 311
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+        annotations:
+          description: "Rabbitmq Server for {{ $labels.hostname }} send a disk alarm"
+          description_template: "Rabbitmq Server for %(hostname)s send a disk alarm"
+          summary: "Rabbitmq Server for {{ $labels.hostname }} send a disk alarm"
+          summary_template: "Rabbitmq Server for %(hostname)s send a disk alarm"
+          suggestion: >-
+            Please check whether rabbitmq service of {{ $labels.hostname }} are working
+            correctly and whether the free disk space drops below a configured limit.
+          suggestion_template: >-
+            Please check whether rabbitmq service of %(hostname)s are working
+            correctly and whether the free disk space drops below a configured limit.
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: rabbitmqClusterNetworkPartitionAlarm
+        expr: rabbitmq_partitions != 0
+        for: 1s
+        labels:
+          severity: Critical
+          description_id: 312
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+        annotations:
+          description: "Rabbitmq cluster alarm, a network partition is in place"
+          description_template: "Rabbitmq cluster alarm, a network partition is in place"
+          summary: "Rabbitmq cluster alarm, a network partition is in place"
+          summary_template: "Rabbitmq cluster alarm, a network partition is in place"
+          suggestion: >-
+            Choose one partition which you trust the most, stop all nodes in the
+            other partitions, then start them all up again.
+            Finally, you should also restart all the nodes in the trusted partition to clear the warning.
+          suggestion_template: >-
+            Choose one partition which you trust the most, stop all nodes in the
+            other partitions, then start them all up again.
+            Finally, you should also restart all the nodes in the trusted partition to clear the warning.
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: rabbitmqServiceIsNotRunning
+        expr: rabbitmq_running == 0
+        for: 1s
+        labels:
+          severity: Critical
+          description_id: 313
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+        annotations:
+          description: "The rabbitmq service on {{ $labels.hostname }} is not running."
+          description_template: "The rabbitmq service on %(hostname)s is not running."
+          summary: "The rabbitmq service on {{ $labels.hostname }} is not running."
+          summary_template: "The rabbitmq service on %(hostname)s is not running."
+          suggestion: >-
+            Please check the status of rabbitmq service on {{ $labels.hostname }}.
+          suggestion_template: >-
+            Please check the status of rabbitmq service on %(hostname)s.
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: rabbitMQHealthIsWARNING
+        expr: sum(rabbitmq_queue_messages) by (cluster_name, hostname, serialnumber) > 100
+        for: 1m
+        labels:
+          severity: Critical
+          description_id: 315
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+        annotations:
+          description: RabbitMQ Health is WARNING
+          description_template: RabbitMQ Health is WARNING
+          summary: RabbitMQ Health is WARNING
+          summary_template: RabbitMQ Health is WARNING
+          suggestion: RabbitMQ Health is WARNING
+          suggestion_template: RabbitMQ Health is WARNING
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+          alert_target: "{{ $labels.cluster_name }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: rabbitmqTooMuchMessage
+        expr: sum(min_over_time(rabbitmq_queue_messages[24h])) by (cluster_name, hostname, serialnumber) > 0
+        for: 1m
+        labels:
+          severity: Critical
+          description_id: 345
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+        annotations:
+          description: RabbitMQ has {{ $value }} queue messages, which is too much
+          description_template: RabbitMQ has %(value)s queue messages, which is too much
+          summary: RabbitMQ has {{ $value }} queue messages, which is too much
+          summary_template: RabbitMQ has %(value)s queue messages, which is too much
+          suggestion: RabbitMQ has {{ $value }} queue messages, which is too much
+          suggestion_template: RabbitMQ has %(value)s queue messages, which is too much
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+          alert_target: "{{ $labels.cluster_name }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: rabbitNodeMissingFromCluster
+        expr: count(rabbitmq_running) by (cluster_name, hostname) - sum(rabbitmq_running) by (cluster_name, hostname) > 0
+        for: 1m
+        labels:
+          severity: Major
+          description_id: 344
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+        annotations:
+          description: RabbitMQ nodes missing from cluster
+          description_template: RabbitMQ nodes missing from cluster
+          summary: RabbitMQ nodes missing from cluster
+          summary_template: RabbitMQ nodes missing from cluster
+          suggestion: RabbitMQ nodes missing from cluster
+          suggestion_template: RabbitMQ nodes missing from cluster
+          resource_type: physical.node
+          sub_resource_type: rabbitmq
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

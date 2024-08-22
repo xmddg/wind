@@ -1,0 +1,1322 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": false,
+    "canEdit": false,
+    "canAdmin": false,
+    "canStar": false,
+    "slug": "xu-ni-ji-jian-kong-xiang-qing",
+    "url": "/d/SNa1jNJnz/xu-ni-ji-jian-kong-xiang-qing",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2022-05-26T13:50:23+08:00",
+    "updated": "2022-06-30T15:39:45+08:00",
+    "updatedBy": "admin",
+    "createdBy": "Anonymous",
+    "version": 9,
+    "hasAcl": false,
+    "isFolder": false,
+    "folderId": 0,
+    "folderUid": "",
+    "folderTitle": "General",
+    "folderUrl": "",
+    "provisioned": false,
+    "provisionedExternalId": ""
+  },
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "虚拟机监控详情页面。",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "gnetId": 12566,
+    "graphTooltip": 1,
+    "id": 21,
+    "iteration": 1656574600807,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [
+              {
+                "options": {
+                  "1": {
+                    "index": 0,
+                    "text": "运行中"
+                  },
+                  "2": {
+                    "index": 1,
+                    "text": "阻塞"
+                  },
+                  "3": {
+                    "index": 2,
+                    "text": "暂停"
+                  },
+                  "4": {
+                    "index": 3,
+                    "text": "关闭"
+                  },
+                  "5": {
+                    "index": 4,
+                    "text": "关机"
+                  },
+                  "6": {
+                    "index": 5,
+                    "text": "损坏"
+                  },
+                  "7": {
+                    "index": 6,
+                    "text": "挂起"
+                  },
+                  "none": {
+                    "index": 7,
+                    "text": "未知"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 5
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 0
+        },
+        "id": 33,
+        "interval": "",
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "repeat": "host",
+        "repeatDirection": "v",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": false,
+            "expr": "sum by (domain)(libvirt_domain_info_vstate) * on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "instant": true,
+            "interval": "",
+            "intervalFactor": 1,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "运行状态",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 4,
+          "y": 0
+        },
+        "id": 35,
+        "interval": "",
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "repeat": "host",
+        "repeatDirection": "v",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "sum(sum by (domain) (libvirt_domain_info_virtual_cpus) * on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"}))",
+            "format": "time_series",
+            "interval": "",
+            "intervalFactor": 1,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "CPU总量",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 1,
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "decgbytes"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 8,
+          "y": 0
+        },
+        "id": 37,
+        "interval": "",
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "repeat": "host",
+        "repeatDirection": "v",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "sum(sum by (domain) (libvirt_domain_info_memory_usage_bytes) * on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"}))/1024/1024/1024",
+            "format": "time_series",
+            "interval": "",
+            "intervalFactor": 1,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "内存总量",
+        "type": "stat"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "hiddenSeries": false,
+        "hideTimeOverride": false,
+        "id": 11,
+        "legend": {
+          "alignAsTable": false,
+          "avg": false,
+          "current": true,
+          "max": true,
+          "min": false,
+          "rightSide": false,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.3.3",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "irate(libvirt_domain_interface_stats_receive_bytes_total[5m]) * on (domain) group_left count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "functions": [],
+            "group": {
+              "filter": ""
+            },
+            "hide": false,
+            "host": {
+              "filter": ""
+            },
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "Sent-上传",
+            "metric": "mysql_global_status_questions",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "refId": "B",
+            "step": 10
+          },
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "irate(libvirt_domain_interface_stats_transmit_bytes_total[5m]) * on (domain) group_left count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "functions": [],
+            "group": {
+              "filter": ""
+            },
+            "hide": false,
+            "host": {
+              "filter": ""
+            },
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "Received-下载",
+            "metric": "mysql_global_status_questions",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "refId": "A",
+            "step": 10
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "网络流量",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "$$hashKey": "object:616",
+            "format": "Bps",
+            "logBase": 1,
+            "show": true
+          },
+          {
+            "$$hashKey": "object:617",
+            "format": "short",
+            "logBase": 1,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "#299c46",
+                  "value": null
+                },
+                {
+                  "color": "rgba(237, 129, 40, 0.89)",
+                  "value": 80
+                },
+                {
+                  "color": "#d44a3a",
+                  "value": 90
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 4
+        },
+        "id": 21,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": false,
+            "expr": "sum by (domain) (libvirt_domain_memory_stats_used_percent) * on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "hide": false,
+            "instant": true,
+            "interval": "",
+            "legendFormat": "",
+            "refId": "B"
+          }
+        ],
+        "title": "内存使用率",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "#299c46",
+                  "value": null
+                },
+                {
+                  "color": "rgba(237, 129, 40, 0.89)",
+                  "value": 80
+                },
+                {
+                  "color": "#d44a3a",
+                  "value": 90
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 6,
+          "y": 4
+        },
+        "id": 19,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "avg by (domain) (irate(libvirt_domain_vcpu_time_seconds_total[5m])) *on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"}) * 100",
+            "format": "time_series",
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "CPU使用率",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 26,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineStyle": {
+                "fill": "solid"
+              },
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "percentage",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 70
+                },
+                {
+                  "color": "red",
+                  "value": 90
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 10
+        },
+        "id": 39,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "avg by (domain) (irate(libvirt_domain_vcpu_time_seconds_total[5m])) *on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"}) *100",
+            "interval": "",
+            "legendFormat": "cpu-usage",
+            "refId": "A"
+          }
+        ],
+        "title": "CPU使用率",
+        "type": "timeseries"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fill": 0,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 10
+        },
+        "hiddenSeries": false,
+        "hideTimeOverride": false,
+        "id": 14,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 3,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.3.3",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
+            "exemplar": true,
+            "expr": "sum by (domain) (libvirt_domain_memory_stats_available_bytes - libvirt_domain_memory_stats_usable_bytes) * on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "functions": [],
+            "group": {
+              "filter": ""
+            },
+            "hide": false,
+            "host": {
+              "filter": ""
+            },
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "memory-usage",
+            "metric": "libvirt_domain_stat_memory_available_bytes",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "range": true,
+            "refId": "B",
+            "step": 20
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "内存使用量",
+        "tooltip": {
+          "shared": false,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "$$hashKey": "object:275",
+            "format": "bytes",
+            "logBase": 1,
+            "show": true
+          },
+          {
+            "$$hashKey": "object:276",
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {
+          "idle": "dark-green",
+          "user": "dark-red"
+        },
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "fill": 2,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 20
+        },
+        "hiddenSeries": false,
+        "hideTimeOverride": false,
+        "id": 3,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.3.3",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "irate(libvirt_domain_block_stats_read_requests_total[5m]) * on (domain) group_left count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "functions": [],
+            "group": {
+              "filter": ""
+            },
+            "hide": false,
+            "host": {
+              "filter": ""
+            },
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "Write {{volume}}",
+            "metric": "libvirt_domain_block_stats_read_requests_total",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "refId": "A",
+            "step": 20
+          },
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "irate(libvirt_domain_block_stats_write_requests_total[5m]) * on (domain) group_left count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "functions": [],
+            "group": {
+              "filter": ""
+            },
+            "hide": false,
+            "host": {
+              "filter": ""
+            },
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "Read {{volume}}",
+            "metric": "libvirt_domain_block_stats_write_requests_total",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "refId": "B",
+            "step": 20
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "每秒磁盘读写 IOPS",
+        "tooltip": {
+          "shared": false,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "$$hashKey": "object:529",
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          },
+          {
+            "$$hashKey": "object:530",
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {
+          "idle": "dark-green",
+          "user": "dark-red"
+        },
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "bytes"
+          },
+          "overrides": []
+        },
+        "fill": 2,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 20
+        },
+        "hiddenSeries": false,
+        "hideTimeOverride": false,
+        "id": 40,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.3.3",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "irate(libvirt_domain_block_stats_read_bytes_total[5m]) * on (domain) group_left count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "functions": [],
+            "group": {
+              "filter": ""
+            },
+            "hide": false,
+            "host": {
+              "filter": ""
+            },
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "Write {{volume}}",
+            "metric": "libvirt_domain_block_stats_read_requests_total",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "refId": "A",
+            "step": 20
+          },
+          {
+            "application": {
+              "filter": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "exemplar": true,
+            "expr": "irate(libvirt_domain_block_stats_write_bytes_total[5m]) * on (domain) group_left count by (domain, instance_name, uuid) (libvirt_domain_info_meta{instance_name=~\"$vm\", uuid=\"$id\"})",
+            "format": "time_series",
+            "functions": [],
+            "group": {
+              "filter": ""
+            },
+            "hide": false,
+            "host": {
+              "filter": ""
+            },
+            "interval": "",
+            "intervalFactor": 1,
+            "item": {
+              "filter": ""
+            },
+            "legendFormat": "Read {{volume}}",
+            "metric": "libvirt_domain_block_stats_write_requests_total",
+            "mode": 0,
+            "options": {
+              "showDisabledItems": false
+            },
+            "refId": "B",
+            "step": 20
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "每秒磁盘读写数据量",
+        "tooltip": {
+          "shared": false,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "$$hashKey": "object:529",
+            "format": "bytes",
+            "logBase": 1,
+            "show": true
+          },
+          {
+            "$$hashKey": "object:530",
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      }
+    ],
+    "refresh": "10s",
+    "schemaVersion": 34,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "10.13.24.9:9000",
+            "value": "10.13.24.9:9000"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "definition": "label_values(libvirt_up{job=\"libvirt\"}, instance)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "",
+          "multi": false,
+          "name": "server",
+          "options": [],
+          "query": {
+            "query": "label_values(libvirt_up{job=\"libvirt\"}, instance)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "current": {
+            "isNone": true,
+            "selected": false,
+            "text": "None",
+            "value": ""
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "definition": "label_values(libvirt_domain_info_meta{job=\"libvirt\",instance=~\"$server\"}, instance_name)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "",
+          "multi": false,
+          "name": "vm",
+          "options": [],
+          "query": {
+            "query": "label_values(libvirt_domain_info_meta{job=\"libvirt\",instance=~\"$server\"}, instance_name)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "isNone": true,
+            "selected": false,
+            "text": "None",
+            "value": ""
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "definition": "label_values(libvirt_domain_info_meta{job=\"libvirt\",instance=~\"$server\", instance_name =\"$vm\"}, uuid)",
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
+          "name": "id",
+          "options": [],
+          "query": {
+            "query": "label_values(libvirt_domain_info_meta{job=\"libvirt\",instance=~\"$server\", instance_name =\"$vm\"}, uuid)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-2h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ]
+    },
+    "timezone": "browser",
+    "title": "虚拟机监控详情",
+    "uid": "SNa1jNJnz",
+    "version": 9,
+    "weekStart": ""
+  }
+}

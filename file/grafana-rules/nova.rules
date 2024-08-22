@@ -1,0 +1,55 @@
+groups:
+  - name: nova.rules
+    rules:
+      - alert: '【服务】节点计算服务停止服务'
+        expr:  openstack_nova_agent_state == 0
+        for: 5m
+        labels:
+          alert_id: sv000001
+          alertgroup: service
+          severity: critical
+          description: '{{ $labels.hostname }} 节点计算服务停止服务'
+          solution: ‘请联系服务器管理员调查原因’
+          summary: '节点计算服务停止服务'
+      - alert: '【服务】租户vcpu配额使用超过70%'
+        expr: 90 > openstack_nova_limits_vcpus_used/openstack_nova_limits_vcpus_max * 100 > 70
+        for: 5m
+        labels:
+          alert_id: sv000002
+          alertgroup: service
+          severity: warning
+          description: '租户vcpu配额使用超过70%'
+          solution: ‘请及时扩容租户配额’
+          summary: "租户 {{ $labels.tenant }} vcpu配额使用超过70%"
+      - alert: '【服务】租户vcpu配额使用超过90%'
+        expr: openstack_nova_limits_vcpus_used/openstack_nova_limits_vcpus_max * 100 > 90
+        for: 5m
+        labels:
+          alert_id: sv000003
+          alertgroup: service
+          severity: critical
+          effect_range: cluster_capacity
+          description: '租户vcpu配额使用超过90%'
+          solution: ‘请及时扩容租户配额’
+          summary: "租户 {{ $labels.tenant }} vcpu配额使用超过90%"
+      - alert: '【服务】租户v内存配额使用超过70%'
+        expr: 90 > openstack_nova_limits_memory_used / openstack_nova_limits_memory_max  * 100 > 70
+        for: 5m
+        labels:
+          alert_id: sv000008
+          alertgroup: service
+          severity: warning
+          description: '租户 {{ $labels.tenant }} vcpu配额使用超过70%'
+          solution: ‘请及时扩容租户配额’
+          summary: "租户vcpu配额使用超过70%"
+      - alert: '【服务】租户v内存配额使用超过90%'
+        expr: openstack_nova_limits_memory_used / openstack_nova_limits_memory_max  * 100 > 90
+        for: 5m
+        labels:
+          alert_id: sv000009
+          alertgroup: service
+          severity: critical
+          effect_range: cluster_capacity
+          description: '租户 {{ $labels.tenant }} v内存配额使用超过90%'
+          solution: ‘请及时扩容租户配额’
+          summary: "租户vcpu配额使用超过90%"

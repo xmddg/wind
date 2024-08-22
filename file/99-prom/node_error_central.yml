@@ -1,0 +1,221 @@
+---
+groups:
+  - name: nodeAlarms
+    rules:
+      - alert: hypervisorIsDown
+        expr: probe_success{type = 'Hypervisor'} == 0
+        for: 3s
+        labels:
+          severity: Critical
+          description_id: 201
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: system
+        annotations:
+          description: >-
+            the hypervisor {{ $labels.hostname }} is down.
+          summary: >-
+            the hypervisor {{ $labels.hostname }} is down.
+          description_template: >-
+            the hypervisor %(hostname)s is down.
+          summary_template: >-
+            the hypervisor %(hostname)s is down.
+          suggestion: >-
+            the hypervisor {{ $labels.hostname }} is down, please check.
+          suggestion_template: >-
+            the hypervisor %(hostname)s is down, please check.
+          resource_type: physical.node
+          sub_resource_type: system
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: nodeHasBeenRestarted
+        expr: time() - node_boot_time_seconds < 3600
+        for: 1m
+        labels:
+          severity: info
+          description_id: 202
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: system
+        annotations:
+          description: >-
+            the node {{ $labels.hostname }} has been restarted just {{ $value }}
+            seconds ago.
+          summary: >-
+            the node {{ $labels.hostname }} has been restarted just {{ $value }}
+            seconds ago.
+          description_template: >-
+            the node %(hostname)s has been restarted just {{ $value }} seconds ago.
+          summary_template: >-
+            the node %(hostname)s has been restarted just {{ $value }} seconds ago.
+          suggestion: >-
+            please check whether the node {{ $labels.hostname }} restarted
+            successfully
+          suggestion_template: >-
+            please check whether the node %(hostname)s restarted successfully
+          resource_type: physical.node
+          sub_resource_type: system
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: nodeHostnameHasBeenChanged
+        expr: count(count_over_time(node_uname_info[30m])) by (hostname) > 1
+        for: 1m
+        labels:
+          severity: info
+          description_id: 203
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: system
+        annotations:
+          description: >-
+            the node hostname of {{ $labels.hostname }} is changed.
+          summary: >-
+            the node hostname of {{ $labels.hostname }} is changed.
+          description_template: >-
+            the node hostname of %(hostname)s is changed.
+          summary_template: >-
+            the node hostname of %(hostname)s is changed.
+          suggestion: >-
+            Please confirm that change hostname for {{ $labels.hostname }} is planned
+          suggestion_template: >-
+            Please confirm that change hostname for %(hostname)s is planned.
+          resource_type: physical.node
+          sub_resource_type: system
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: cpuIOWaitHigh
+        expr: avg(irate(node_cpu_seconds_total{mode="iowait"}[5m])) by (instance) *100 >20
+        for: 1m
+        labels:
+          severity: info
+          description_id: 218
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: cpu
+        annotations:
+          description: >-
+            CPU IO too high on {{ $labels.hostname }}
+          summary: >-
+            CPU IO too high on {{ $labels.hostname }}
+          description_template:
+            CPU IO too high on %(hostname)s
+          summary_template: >-
+            CPU IO too high on %(hostname)s
+          suggestion: >-
+            CPU IO too high on {{ $labels.hostname }}, please check.
+          suggestion_template: >-
+            CPU IO too high on %(hostname)s, please check.
+          resource_type: physical.node
+          sub_resource_type: cpu
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: lackOfAvailableMemoryTo10%
+        expr: (node_memory_MemFree_bytes+node_memory_Cached_bytes+node_memory_Buffers_bytes) / node_memory_MemTotal_bytes * 100 < 10
+        for: 1m
+        labels:
+          severity: Warning
+          description_id: 220
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: memory
+        annotations:
+          description: >-
+            Lack of available memory to 10% on {{ $labels.hostname }}
+          summary: >-
+            Lack of available memory to 10% on {{ $labels.hostname }}
+          description_template: >-
+            Lack of available memory to 10% on %(hostname)s
+          summary_template: >-
+            Lack of available memory to 10% on %(hostname)s
+          resource_type: physical.node
+          sub_resource_type: memory
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: lackOfAvailableMemory
+        expr: (node_memory_MemFree_bytes+node_memory_Cached_bytes+node_memory_Buffers_bytes) / node_memory_MemTotal_bytes * 100 < 30
+        for: 1m
+        labels:
+          severity: Warning
+          description_id: 222
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: memory
+        annotations:
+          description: >-
+            Lack of available memory on {{ $labels.hostname }}
+          summary: >-
+            Lack of available memory on {{ $labels.hostname }}
+          description_template: >-
+            Lack of available memory on %(hostname)s
+          summary_template: >-
+            Lack of available memory on %(hostname)s
+          resource_type: physical.node
+          sub_resource_type: memory
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: processorLoadTooHigh
+        expr: min_over_time(node_load1[5m]) / count(node_cpu_seconds_total{mode='user'}) by (hostname,instance,job,node_role,serialnumber) * 100 > 80
+        for: 1m
+        labels:
+          severity: Warning
+          description: 224
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: cpu
+        annotations:
+          description: >-
+            Processor load is too high on {{ $labels.hostname }}
+          summary:
+            Processor load is too high on {{ $labels.hostname }}
+          description_template: >-
+            Processor load is too high on %(hostname)s
+          summary_template: >-
+            Processor load is too high on %(hostname)s
+          resource_type: physical.node
+          sub_resource_type: cpu
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: insufficientFilesystemInode
+        expr: node_filesystem_files_free / node_filesystem_files * 100 < 20
+        for: 1m
+        labels:
+          severity: Critical
+          description: 219
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: disk
+        annotations:
+          description: >-
+            Free filesystem inode is less than 20% on {{ $labels.hostname }} partion {{ $labels.mountpoint }}
+          summary:
+            Free filesystem inode is less than 20% on {{ $labels.hostname }} partion {{ $labels.mountpoint }}
+          description_template: >-
+            Free filesystem inode is less than 20% on {{ $labels.hostname }} partion {{ $labels.mountpoint }}
+          summary_template: >-
+            Free filesystem inode is less than 20% on {{ $labels.hostname }} partion {{ $labels.mountpoint }}
+          resource_type: physical.node
+          sub_resource_type: disk
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: lackOfAvailableMemoryTo5%
+        expr: (node_memory_MemFree_bytes+node_memory_Cached_bytes+node_memory_Buffers_bytes) / node_memory_MemTotal_bytes * 100 < 5
+        for: 1m
+        labels:
+          severity: Critical
+          description_id: 221
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: memory
+        annotations:
+          description: >-
+            Lack of available memory on to 5% {{ $labels.hostname }}
+          summary: >-
+            Lack of available memory on to 5% {{ $labels.hostname }}
+          description_template: >-
+            Lack of available memory on to 5% %(hostname)s
+          summary_template: >-
+            Lack of available memory on to 5% %(hostname)s
+          resource_type: physical.node
+          sub_resource_type: memory
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

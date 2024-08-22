@@ -1,0 +1,56 @@
+---
+groups:
+  - name: dnsNameserverAlarms
+    rules:
+      - alert: dnsServerIsUnavailable
+        # total_alive_dns_server_per_node_num == 0
+        expr: sum by(hostname)(node_dns_scrape_success) == 0
+        for: 30s
+        labels:
+          severity: Critical
+          description_id: 108
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: dns
+        annotations:
+          description: >-
+            Node {{ $labels.hostname }} can not connect to all DNS Server.
+          summary: >-
+            Node {{ $labels.hostname }} can not connect to all DNS Server.
+          description_template: >-
+            Node %(hostname) can not connect to all DNS Server.
+          summary_template: >-
+            Node %(hostname) can not connect to all DNS Server.
+          suggestion: >-
+            Please check your DNS server and network connection.
+          suggestion_template: >-
+            Please check your DNS server and network connection.
+          resource_type: physical.network
+          sub_resource_type: dns
+          alert_target: "{{ $labels.hostname }}"
+      - alert: noDnsServerRedundancy
+        # total_dns_server_per_node_num > 1 & total_alive_dns_server_per_node_num == 1
+        expr: count by(hostname)(node_dns_scrape_success) > 1 and sum by(hostname)(node_dns_scrape_success) == 1
+        for: 1m
+        labels:
+          severity: Warning
+          description_id: 109
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: dns
+        annotations:
+          description: >-
+            Node {{ $labels.hostname }} no DNS Server redundancy.
+          summary: >-
+            Node {{ $labels.hostname }} no DNS Server redundancy.
+          description_template: >-
+            Node %(hostname) no DNS Server redundancy.
+          summary_template: >-
+            Node %(hostname) no DNS Server redundancy.
+          suggestion: >-
+            Please check your DNS server and network connection.
+          suggestion_template: >-
+            Please check your DNS server and network connection.
+          resource_type: physical.network
+          sub_resource_type: dns
+          alert_target: "{{ $labels.hostname }}"

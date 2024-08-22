@@ -1,0 +1,14 @@
+groups:
+  - name: cinder.rules
+    rules:
+      - alert: '【服务】节点网络服务停止服务'
+        expr:  openstack_neutron_agent_state == 0
+        for: 5m
+        labels:
+          alert_id: sv000004
+          alertgroup: service
+          severity: critical
+          effect_range: cluster_capacity
+        annotations:
+          description: '{{ $labels.hostname }} 节点网络服务停止服务'
+          solution: "节点网络服务停止服务"

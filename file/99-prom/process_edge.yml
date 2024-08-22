@@ -1,0 +1,52 @@
+---
+groups:
+  - name: processIsNotRunning
+    rules:
+{% set processes_mapping = {
+  'control': [
+    'nova-api',
+    'nova-schduler',
+    'nova-conductor',
+    'nova-consoleauth',
+    'nova-novncproxy',
+    'neutron-server',
+    'neutron-dhcp-agent',
+    'neutron-l3-agent',
+    'neutron-openvswitch-agent',
+    'ovs-vswitchd',
+    'ovsdb-server',
+    'cinder-api',
+    'cinder-schedule',
+    'ceilometer-agent-notification',
+    'ceilometer-polling',
+    'ntpd',
+    'rabbitmq-server',
+    'mysqld',
+    'haproxy',
+    'heat-engine',
+    'sshd',
+    'filebeat'],
+  'compute': [
+    'libvirtd',
+    'nova-compute',
+    'ovs-vswitchd',
+    'ovsdb-server',
+    'ntpd',
+    'neutron-openvswitch-agent',
+    'ceilometer-polling',
+    'sshd',
+    'filebeat']}
+%}
+{% import 'processRules.yml' as processRules %}
+{% set interval = '1s' %}
+{% if inventory_hostname in groups['control'] %}
+{% set role = 'control' %}
+{% for process in processes_mapping[role] %}
+[[ processRules.processRules(process, role, interval) ]]
+{% endfor %}
+{% elif inventory_hostname in groups['compute'] %}
+{% set role = 'compute' %}
+{% for process in processes_mapping[role] %}
+[[ processRules.processRules(process, role, interval) ]]
+{% endfor %}
+{% endif %}

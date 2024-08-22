@@ -1,0 +1,74 @@
+{% macro recording_rules(network, device) %}
+{% if device != '' %}
+{% set device_names = network_config.nic_mapping.get(device, ['not_found_device']) %}
+      - record: physical:node:network:[[ network ]]:up
+        expr: sum(node_network_up{interface=~'[[ device_names|join('|') ]]'}) by (hostname, serialnumber)
+      - record: physical:node:network:[[ network ]]:count
+        expr: count(node_network_up{interface=~'[[ device_names|join('|') ]]'}) by (hostname, serialnumber)
+      - record: physical:node:network:[[ network ]]:receive:kbps
+        expr: sum(irate(node_network_receive_bytes_total{device=~'[[ device_names|join('|') ]]'}[10m])) by (hostname, serialnumber)
+      - record: physical:node:network:[[ network ]]:transmit:kbps
+        expr: sum(irate(node_network_transmit_bytes_total{device=~'[[ device_names|join('|') ]]'}[10m])) by (hostname, serialnumber)
+      - record: physical:node:network:[[ network ]]:receive:percent
+        expr: sum(irate(node_network_receive_bytes_total{device=~'[[ device_names|join('|') ]]'}[10m])) by (serialnumber, hostname) / sum(node_network_mtu_bytes{interface=~"[[ device_names|join('|') ]]"}) by (serialnumber, hostname) / 1e+6
+      - record: physical:node:network:[[ network ]]:transmit:percent
+        expr: sum(irate(node_network_transmit_bytes_total{device=~'[[ device_names|join('|') ]]'}[10m])) by (serialnumber, hostname) / sum(node_network_mtu_bytes{interface=~"[[ device_names|join('|') ]]"}) by (serialnumber, hostname) / 1e+6
+{% endif %}
+{% endmacro %}
+---
+groups:
+  - name: node exporter recording
+    rules:
+      # cpu
+      - record: physical:node:cpu:load1
+        expr: node_load1
+      - record: physical:node:cpu:load5
+        expr: node_load5
+      - record: physical:node:cpu:load15
+        expr: node_load15
+      - record: physical:node:cpu:count
+        expr: count(node_cpu_seconds_total{mode="idle"}) by (hostname)
+      # memory
+      - record: physical:node:memory:total
+        expr: node_memory_MemTotal_bytes
+      - record: physical:node:memory:used
+        expr: node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes
+      # network
+      - record: physical:node:network:receive:kbps
+        expr: irate(node_network_receive_bytes_total[10m])
+      - record: physical:node:network:transmit:kbps
+        expr: irate(node_network_transmit_bytes_total[10m])
+[[ recording_rules('management', api_interface) ]]
+[[ recording_rules('storage', storage_interface) ]]
+[[ recording_rules('business', business_interface) ]]
+
+  - name: openstack exporter recording
+    rules:
+      # cpu
+      - record: virtual:kvm:cpu:count
+        expr: os_instance_cpu_vcpus
+      - record: virtual:kvm:cpu:usage
+        expr: clamp_min(clamp_max(irate(os_instance_cpu_cpu_time[5m])/os_instance_cpu_vcpus/1e+9, 1), 0)
+      # memory
+      - record: virtual:kvm:memory:total
+        expr: os_instance_memory_actual
+      - record: virtual:kvm:memory:used
+        expr: os_instance_memory_used
+      # network
+      - record: virtual:kvm:network:receive:rate
+        expr: irate(os_instance_interface_net_read_bytes[5m])
+      # TODO(Bai Yongjun): virtual:kvm:network:write:rate will be abandoned
+      # later. Use virtual:kvm:network:transmit:rate in the future.
+      - record: virtual:kvm:network:write:rate
+        expr: irate(os_instance_interface_net_write_bytes[5m])
+      - record: virtual:kvm:network:transmit:rate
+        expr: irate(os_instance_interface_net_write_bytes[5m])
+      # disk
+      - record: virtual:kvm:disk:read:kbps
+        expr: irate(os_instance_disk_read_bytes[5m])
+      - record: virtual:kvm:disk:write:kbps
+        expr: irate(os_instance_disk_write_bytes[5m])
+      - record: virtual:kvm:disk:read:iops
+        expr: irate(os_instance_disk_read_requests_issued[5m])
+      - record: virtual:kvm:disk:write:iops
+        expr: irate(os_instance_disk_write_requests_issued[5m])

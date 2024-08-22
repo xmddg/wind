@@ -1,0 +1,199 @@
+groups:
+- name: CephAlerts
+  rules:
+  - alert: CephPgIncomplete
+    expr: ceph_pg_incomplete > 0
+    for: 3m
+    labels:
+      severity: critical
+      description_id: 319
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Some groups are incomplete (unavailable) for too long on {{ $labels.instance }}. Please ensure that all the data are available'
+      summary: PG INCOMPLETE on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: CephOsdOut
+    expr: ceph_osd_in == 0
+    for: 30m
+    labels:
+      severity: critical
+      description_id: 320
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'OSD is out longer than 30 min, please check whats the status'
+      summary: OSD out on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: PgBackfillUnFound
+    expr: ceph_pg_backfill_unfound > 0
+    for: 3m
+    labels:
+      severity: Major
+      description_id: 321
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Pg backfill unfound on {{ $labels.instance }}.'
+      summary: Pg backfill unfound on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: OSDLatencyTooHigh
+    expr: ceph_osd_apply_latency_ms > 1000
+    for: 3m
+    labels:
+      severity: Major
+      description_id: 322
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'OSD latency too high on {{ $labels.instance }}'
+      summary: OSD stat apply_latency_ms too long
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: CephHealthWarning
+    expr: ceph_health_status == 1
+    for: 30m
+    labels:
+      severity: Major
+      description_id: 323
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Ceph is in Warn state longer than 30m, please check status of pools and OSDs'
+      summary: CEPH in WARN
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: CephHealthError
+    expr: ceph_health_status == 2
+    for: 3m
+    labels:
+      severity: critical
+      description_id: 324
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Ceph is in Error state longer than 3m, please check status of pools and OSDs'
+      summary: CEPH in ERROR
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: JournalLatencyTooHigh
+    expr: ceph_osd_commit_latency_ms > 1000
+    for: 3m
+    labels:
+      severity: critical
+      description_id: 325
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Average journal queue completing latency too high on {{ $labels.instance }}.'
+      summary: Average journal queue completing latency too high on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: PgInconsistent
+    expr: ceph_pg_inconsistent > 0
+    for: 3m
+    labels:
+      severity: Major
+      description_id: 326
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Some groups are inconsistent for too long on {{ $labels.instance }}. Data is available but inconsistent across nodes.'
+      summary: PG inconsistent on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: PgRecoveryTooFull
+    expr: ceph_pg_recovery_toofull > 0
+    for: 3m
+    labels:
+      severity: Major
+      description_id: 327
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Pg recovery too full on {{ $labels.instance }}.'
+      summary: Pg recovery too full on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: PgRecoveryUnfound
+    expr: ceph_pg_recovery_unfound > 0
+    for: 3m
+    labels:
+      severity: critical
+      description_id: 328
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Pg recovery unfound on {{ $labels.instance }}.'
+      summary: PG recovery unfound on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: PgBackfillTooFull
+    expr: ceph_pg_backfill_toofull > 0
+    for: 3m
+    labels:
+      severity: Major
+      description_id: 329
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Some groups are located on full OSD on cluster {{ $labels.instance }}. Those PGs can be unavailable shortly.'
+      summary: PG TOO FULL on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: SomeObjectsUnfound
+    expr: ceph_num_objects_unfound > 0
+    for: 3m
+    labels:
+      severity: critical
+      description_id: 330
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Some objects are not found (unavailable) for too long on {{ $labels.instance }}. Please ensure that all the data are available'
+      summary: Some objects are not found on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: PgDown
+    expr: ceph_pg_down > 0
+    for: 3m
+    labels:
+      severity: critical
+      description_id: 331
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'Some groups are down (unavailable) for too long on {{ $labels.instance }}. Please ensure that all the data are available'
+      summary: PG DOWN on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph
+  - alert: CephOsdDown
+    expr: ceph_osd_up == 0
+    for: 30m
+    labels:
+      severity: critical
+      description_id: 332
+      tenant: __cluster__
+      resource_type: physical.node
+      sub_resource_type: ceph
+    annotations:
+      description: 'OSD is down longer than 30 min, please check whats the status'
+      summary: OSD down on {{ $labels.instance }}
+      resource_type: physical.node
+      sub_resource_type: ceph

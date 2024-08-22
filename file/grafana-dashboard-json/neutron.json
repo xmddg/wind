@@ -1,0 +1,608 @@
+{
+    "meta": {
+        "type": "db", 
+        "canSave": true, 
+        "canEdit": true, 
+        "canAdmin": true, 
+        "canStar": true, 
+        "slug": "neutron", 
+        "url": "/d/t8tUhsA7z/neutron", 
+        "expires": "0001-01-01T00:00:00Z", 
+        "created": "2022-01-05T16:43:13+08:00", 
+        "updated": "2022-01-06T09:49:07+08:00", 
+        "updatedBy": "admin", 
+        "createdBy": "admin", 
+        "version": 12, 
+        "hasAcl": false, 
+        "isFolder": false, 
+        "folderId": 0, 
+        "folderUid": "", 
+        "folderTitle": "General", 
+        "folderUrl": "", 
+        "provisioned": false, 
+        "provisionedExternalId": ""
+    }, 
+    "dashboard": {
+        "annotations": {
+            "list": [
+                {
+                    "$$hashKey": "object:477", 
+                    "builtIn": 1, 
+                    "datasource": "-- Grafana --", 
+                    "enable": true, 
+                    "hide": true, 
+                    "iconColor": "rgba(0, 211, 255, 1)", 
+                    "name": "Annotations & Alerts", 
+                    "type": "dashboard"
+                }
+            ]
+        }, 
+        "editable": true, 
+        "gnetId": null, 
+        "graphTooltip": 0, 
+        "id": 118, 
+        "links": [], 
+        "panels": [
+            {
+                "cacheTimeout": null, 
+                "datasource": "Prometheus", 
+                "gridPos": {
+                    "h": 8, 
+                    "w": 12, 
+                    "x": 0, 
+                    "y": 0
+                }, 
+                "id": 4, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "fieldOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "defaults": {
+                            "links": [
+                                {
+                                    "title": "Show details", 
+                                    "url": "/d/t8tUhsA7z/neutron?panelId=2&fullscreen&orgId=1"
+                                }
+                            ], 
+                            "mappings": [
+                                {
+                                    "$$hashKey": "object:1009", 
+                                    "id": 0, 
+                                    "op": "=", 
+                                    "text": "N/A", 
+                                    "type": 1, 
+                                    "value": "null"
+                                }
+                            ], 
+                            "nullValueMode": "connected", 
+                            "thresholds": {
+                                "mode": "absolute", 
+                                "steps": [
+                                    {
+                                        "color": "green", 
+                                        "value": null
+                                    }, 
+                                    {
+                                        "color": "red", 
+                                        "value": 0.1
+                                    }
+                                ]
+                            }, 
+                            "unit": "none"
+                        }, 
+                        "overrides": [], 
+                        "values": false
+                    }, 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal"
+                }, 
+                "pluginVersion": "6.7.1", 
+                "targets": [
+                    {
+                        "expr": "count(openstack_neutron_agent_state{adminState=\"up\"})-sum(openstack_neutron_agent_state{adminState=\"up\"})", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "timeFrom": null, 
+                "timeShift": null, 
+                "title": "Neutron Agent Down", 
+                "type": "stat"
+            }, 
+            {
+                "cacheTimeout": null, 
+                "datasource": "Prometheus", 
+                "gridPos": {
+                    "h": 8, 
+                    "w": 12, 
+                    "x": 12, 
+                    "y": 0
+                }, 
+                "id": 5, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "fieldOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "defaults": {
+                            "links": [
+                                {
+                                    "title": "Show details", 
+                                    "url": "/d/t8tUhsA7z/neutron?panelId=2&fullscreen&orgId=1"
+                                }
+                            ], 
+                            "mappings": [
+                                {
+                                    "$$hashKey": "object:1009", 
+                                    "id": 0, 
+                                    "op": "=", 
+                                    "text": "N/A", 
+                                    "type": 1, 
+                                    "value": "null"
+                                }
+                            ], 
+                            "nullValueMode": "connected", 
+                            "thresholds": {
+                                "mode": "absolute", 
+                                "steps": [
+                                    {
+                                        "color": "green", 
+                                        "value": null
+                                    }, 
+                                    {
+                                        "color": "red", 
+                                        "value": 80
+                                    }
+                                ]
+                            }, 
+                            "unit": "none"
+                        }, 
+                        "overrides": [], 
+                        "values": false
+                    }, 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal"
+                }, 
+                "pluginVersion": "6.7.1", 
+                "targets": [
+                    {
+                        "expr": "count(openstack_neutron_agent_state{adminState=\"up\"})", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "timeFrom": null, 
+                "timeShift": null, 
+                "title": "Neutron Agent Total", 
+                "type": "stat"
+            }, 
+            {
+                "cacheTimeout": null, 
+                "datasource": "Prometheus", 
+                "gridPos": {
+                    "h": 6, 
+                    "w": 6, 
+                    "x": 0, 
+                    "y": 8
+                }, 
+                "id": 10, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "fieldOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "defaults": {
+                            "links": [], 
+                            "mappings": [
+                                {
+                                    "$$hashKey": "object:1009", 
+                                    "id": 0, 
+                                    "op": "=", 
+                                    "text": "N/A", 
+                                    "type": 1, 
+                                    "value": "null"
+                                }
+                            ], 
+                            "nullValueMode": "connected", 
+                            "thresholds": {
+                                "mode": "absolute", 
+                                "steps": [
+                                    {
+                                        "color": "green", 
+                                        "value": null
+                                    }
+                                ]
+                            }, 
+                            "unit": "none"
+                        }, 
+                        "overrides": [], 
+                        "values": false
+                    }, 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal"
+                }, 
+                "pluginVersion": "6.7.1", 
+                "targets": [
+                    {
+                        "expr": "openstack_neutron_networks", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "timeFrom": null, 
+                "timeShift": null, 
+                "title": "Neutron Networks", 
+                "type": "stat"
+            }, 
+            {
+                "cacheTimeout": null, 
+                "datasource": "Prometheus", 
+                "gridPos": {
+                    "h": 6, 
+                    "w": 6, 
+                    "x": 6, 
+                    "y": 8
+                }, 
+                "id": 11, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "fieldOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "defaults": {
+                            "links": [], 
+                            "mappings": [
+                                {
+                                    "$$hashKey": "object:1009", 
+                                    "id": 0, 
+                                    "op": "=", 
+                                    "text": "N/A", 
+                                    "type": 1, 
+                                    "value": "null"
+                                }
+                            ], 
+                            "nullValueMode": "connected", 
+                            "thresholds": {
+                                "mode": "absolute", 
+                                "steps": [
+                                    {
+                                        "color": "green", 
+                                        "value": null
+                                    }
+                                ]
+                            }, 
+                            "unit": "none"
+                        }, 
+                        "overrides": [], 
+                        "values": false
+                    }, 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal"
+                }, 
+                "pluginVersion": "6.7.1", 
+                "targets": [
+                    {
+                        "expr": "openstack_neutron_subnets", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "timeFrom": null, 
+                "timeShift": null, 
+                "title": "Neutron Subnets", 
+                "type": "stat"
+            }, 
+            {
+                "cacheTimeout": null, 
+                "datasource": "Prometheus", 
+                "gridPos": {
+                    "h": 6, 
+                    "w": 6, 
+                    "x": 12, 
+                    "y": 8
+                }, 
+                "id": 7, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "fieldOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "defaults": {
+                            "links": [], 
+                            "mappings": [
+                                {
+                                    "$$hashKey": "object:1009", 
+                                    "id": 0, 
+                                    "op": "=", 
+                                    "text": "N/A", 
+                                    "type": 1, 
+                                    "value": "null"
+                                }
+                            ], 
+                            "nullValueMode": "connected", 
+                            "thresholds": {
+                                "mode": "absolute", 
+                                "steps": [
+                                    {
+                                        "color": "green", 
+                                        "value": null
+                                    }
+                                ]
+                            }, 
+                            "unit": "none"
+                        }, 
+                        "overrides": [], 
+                        "values": false
+                    }, 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal"
+                }, 
+                "pluginVersion": "6.7.1", 
+                "targets": [
+                    {
+                        "expr": "openstack_neutron_security_groups", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "timeFrom": null, 
+                "timeShift": null, 
+                "title": "Neutron Security Groups", 
+                "type": "stat"
+            }, 
+            {
+                "cacheTimeout": null, 
+                "datasource": "Prometheus", 
+                "gridPos": {
+                    "h": 6, 
+                    "w": 6, 
+                    "x": 18, 
+                    "y": 8
+                }, 
+                "id": 6, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "fieldOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "defaults": {
+                            "links": [], 
+                            "mappings": [
+                                {
+                                    "$$hashKey": "object:1009", 
+                                    "id": 0, 
+                                    "op": "=", 
+                                    "text": "N/A", 
+                                    "type": 1, 
+                                    "value": "null"
+                                }
+                            ], 
+                            "nullValueMode": "connected", 
+                            "thresholds": {
+                                "mode": "absolute", 
+                                "steps": [
+                                    {
+                                        "color": "green", 
+                                        "value": null
+                                    }
+                                ]
+                            }, 
+                            "unit": "none"
+                        }, 
+                        "overrides": [], 
+                        "values": false
+                    }, 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal"
+                }, 
+                "pluginVersion": "6.7.1", 
+                "targets": [
+                    {
+                        "expr": "openstack_neutron_floating_ips", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "timeFrom": null, 
+                "timeShift": null, 
+                "title": "Neutron Floating IPs", 
+                "type": "stat"
+            }, 
+            {
+                "columns": [], 
+                "datasource": "Prometheus", 
+                "fontSize": "100%", 
+                "gridPos": {
+                    "h": 9, 
+                    "w": 24, 
+                    "x": 0, 
+                    "y": 14
+                }, 
+                "id": 2, 
+                "pageSize": null, 
+                "showHeader": true, 
+                "sort": {
+                    "col": 8, 
+                    "desc": false
+                }, 
+                "styles": [
+                    {
+                        "$$hashKey": "object:573", 
+                        "alias": "Time", 
+                        "align": "auto", 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "pattern": "Time", 
+                        "type": "date"
+                    }, 
+                    {
+                        "$$hashKey": "object:744", 
+                        "alias": "", 
+                        "align": "auto", 
+                        "colorMode": null, 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "__name__", 
+                        "thresholds": [], 
+                        "type": "hidden", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:755", 
+                        "alias": "", 
+                        "align": "auto", 
+                        "colorMode": null, 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "instance", 
+                        "thresholds": [], 
+                        "type": "hidden", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:766", 
+                        "alias": "", 
+                        "align": "auto", 
+                        "colorMode": null, 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "job", 
+                        "thresholds": [], 
+                        "type": "hidden", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:798", 
+                        "alias": "Status", 
+                        "align": "auto", 
+                        "colorMode": "cell", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "Value", 
+                        "thresholds": [
+                            "0.1", 
+                            "1"
+                        ], 
+                        "type": "string", 
+                        "unit": "short", 
+                        "valueMaps": [
+                            {
+                                "$$hashKey": "object:819", 
+                                "text": "Down", 
+                                "value": "0"
+                            }, 
+                            {
+                                "$$hashKey": "object:821", 
+                                "text": "Up", 
+                                "value": "1"
+                            }
+                        ]
+                    }, 
+                    {
+                        "$$hashKey": "object:574", 
+                        "alias": "", 
+                        "align": "left", 
+                        "colorMode": null, 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "decimals": 2, 
+                        "pattern": "/.*/", 
+                        "thresholds": [], 
+                        "type": "string", 
+                        "unit": "short"
+                    }
+                ], 
+                "targets": [
+                    {
+                        "expr": "openstack_neutron_agent_state", 
+                        "format": "table", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "timeFrom": null, 
+                "timeShift": null, 
+                "title": "Neutron agent status detail", 
+                "transform": "table", 
+                "type": "table"
+            }
+        ], 
+        "schemaVersion": 22, 
+        "style": "dark", 
+        "tags": [], 
+        "templating": {
+            "list": []
+        }, 
+        "time": {
+            "from": "now-2h",
+            "to": "now"
+        }, 
+        "timepicker": {}, 
+        "timezone": "", 
+        "title": "Neutron", 
+        "uid": "t8tUhsA7z", 
+        "variables": {
+            "list": []
+        }, 
+        "version": 12
+    }
+}

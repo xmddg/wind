@@ -1,0 +1,80 @@
+groups:
+  - name: nodes.rules
+    rules:
+      - alert: '【主机】物理节点离线'
+        expr:  up{job="node"} == 0
+        for: 5m
+        labels:
+          alert_id: nd000001
+          alertgroup: host
+          severity: critical
+          effect_range: cluster_capacity
+          description: '{{ $labels.hostname }} 物理节点离线'
+          solution: "请联系服务器管理员调查原因"
+          summary: "【节点】物理节点离线"
+      - alert: '【主机】节点cpu使用率大于70%'
+        expr: 90 > avg by (instance)(1 - irate(node_cpu_seconds_total{mode="idle"}[5m])) * on (instance) group_right(nodeName) node_uname_info * 100 > 70
+        for: 5m
+        labels:
+          alert_id: nd000002
+          alertgroup: host
+          severity: warning
+          effect_range: cluster_capacity
+          description: '节点{{ $labels.nodename }} cpu使用率超过70%'
+          solution: "请扩容集群降低节点负载"
+          summary: "【主机】节点cpu使用率大于70%"
+      - alert: '【主机】节点cpu使用率大于90%'
+        expr: avg by (instance)(1 - irate(node_cpu_seconds_total{mode="idle"}[5m])) * on (instance) group_right(nodeName) node_uname_info * 100 > 90
+        for: 5m
+        labels:
+          alert_id: nd000003
+          alertgroup: host
+          severity: critical
+          effect_range: cluster_capacity
+          description: '节点{{ $labels.nodename }} cpu使用率超过90%'
+          solution: "请扩容集群降低节点负载"
+          summary: "【主机】节点cpu使用率大于90%"
+      - alert: '【主机】节点内存使用率大于70%'
+        expr: 90 > (node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Cached_bytes - node_memory_Slab_bytes ) / node_memory_MemTotal_bytes * on (instance) group_right(nodeName) node_uname_info * 100 > 70
+        for: 5m
+        labels:
+          alert_id: nd000004
+          alertgroup: host
+          severity: warning
+          effect_range: cluster_capacity
+          description: '节点{{ $labels.nodename }} 内存使用率超过70%'
+          solution: "请扩容集群降低节点负载"
+          summary: "节点内存使用率大于70%"
+      - alert: '【主机】节点内存使用率大于90%'
+        expr: (node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Cached_bytes -node_memory_Slab_bytes ) / node_memory_MemTotal_bytes * on (instance) group_right(nodeName) node_uname_info * 100 > 90
+        for: 5m
+        labels:
+          alert_id: nd000005
+          alertgroup: host
+          severity: critical
+          effect_range: cluster_capacity
+          description: '节点{{ $labels.nodename }} 内存使用率超过90%'
+          solution: "请扩容集群降低节点负载"
+          summary: "【主机】节点内存使用率大于90%"
+      - alert: '【主机】节点设备存储容量使用率大于70%'
+        expr: 90 > (1 - node_filesystem_free_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}/node_filesystem_size_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}) * 100 > 70
+        for: 5m
+        labels:
+          alert_id: nd000006
+          alertgroup: host
+          severity: critical
+          effect_range: cluster_capacity
+          description: '节点{{ $labels.nodename }} 节点设备 {{ $labels.device }} 存储容量使用率大于70%'
+          solution: "请扩容集群降低节点负载"
+          summary: "节点设备存储容量使用率大于70%"
+      - alert: '【主机】节点设备存储容量使用率大于90%'
+        expr: (1 - node_filesystem_free_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}/node_filesystem_size_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}) * 100 > 90
+        for: 5m
+        labels:
+          alert_id: nd000007
+          alertgroup: host
+          severity: critical
+          effect_range: cluster_capacity
+          description: '节点{{ $labels.nodename }} 节点设备 {{ $labels.device }} 存储容量使用率大于90%'
+          solution: "请扩容集群降低节点负载"
+          summary: "节点设备存储容量使用率大于90%"

@@ -1,0 +1,1093 @@
+{
+    "meta": {
+        "type": "db", 
+        "canSave": true, 
+        "canEdit": true, 
+        "canAdmin": true, 
+        "canStar": true, 
+        "slug": "nova", 
+        "url": "/d/temFSsA7k/nova", 
+        "expires": "0001-01-01T00:00:00Z", 
+        "created": "2022-01-05T14:33:36+08:00", 
+        "updated": "2022-01-20T08:58:15+08:00", 
+        "updatedBy": "admin", 
+        "createdBy": "admin", 
+        "version": 43, 
+        "hasAcl": false, 
+        "isFolder": false, 
+        "folderId": 0, 
+        "folderUid": "", 
+        "folderTitle": "General", 
+        "folderUrl": "", 
+        "provisioned": false, 
+        "provisionedExternalId": ""
+    }, 
+    "dashboard": {
+        "annotations": {
+            "list": [
+                {
+                    "$$hashKey": "object:1263", 
+                    "builtIn": 1, 
+                    "datasource": "-- Grafana --", 
+                    "enable": true, 
+                    "hide": true, 
+                    "iconColor": "rgba(0, 211, 255, 1)", 
+                    "name": "Annotations & Alerts", 
+                    "target": {
+                        "limit": 100, 
+                        "matchAny": false, 
+                        "tags": [], 
+                        "type": "dashboard"
+                    }, 
+                    "type": "dashboard"
+                }
+            ]
+        }, 
+        "editable": true, 
+        "fiscalYearStartMonth": 0, 
+        "graphTooltip": 0, 
+        "id": 115, 
+        "links": [], 
+        "liveNow": false, 
+        "panels": [
+            {
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "description": "Total number down status nova agent", 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": [
+                            {
+                                "targetBlank": true, 
+                                "title": "Show details", 
+                                "url": "/d/temFSsA7k/nova?orgId=1&viewPanel=11"
+                            }
+                        ], 
+                        "mappings": [], 
+                        "thresholds": {
+                            "mode": "absolute", 
+                            "steps": [
+                                {
+                                    "color": "green", 
+                                    "value": null
+                                }, 
+                                {
+                                    "color": "red", 
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    }, 
+                    "overrides": []
+                }, 
+                "gridPos": {
+                    "h": 5, 
+                    "w": 3, 
+                    "x": 0, 
+                    "y": 0
+                }, 
+                "id": 2, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "auto", 
+                    "reduceOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "fields": "", 
+                        "values": false
+                    }, 
+                    "textMode": "auto"
+                }, 
+                "pluginVersion": "8.3.3", 
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus", 
+                            "uid": "PBFA97CFB590B2093"
+                        }, 
+                        "exemplar": false, 
+                        "expr": "count(openstack_nova_agent_state{adminState=\"enabled\"})-sum(openstack_nova_agent_state{adminState=\"enabled\"})", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "title": "Nova Agent Down", 
+                "type": "stat"
+            }, 
+            {
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "description": "Total number of enabled nova agent", 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": [
+                            {
+                                "targetBlank": true, 
+                                "title": "Show details", 
+                                "url": "/d/temFSsA7k/nova?orgId=1&fullscreen&panelId=11"
+                            }
+                        ], 
+                        "mappings": [
+                            {
+                                "$$hashKey": "object:4020", 
+                                "id": 0, 
+                                "op": "=", 
+                                "text": "N/A", 
+                                "type": 1, 
+                                "value": "null"
+                            }
+                        ], 
+                        "thresholds": {
+                            "mode": "absolute", 
+                            "steps": [
+                                {
+                                    "color": "green", 
+                                    "value": null
+                                }, 
+                                {
+                                    "color": "red", 
+                                    "value": 80
+                                }
+                            ]
+                        }, 
+                        "unit": "none"
+                    }, 
+                    "overrides": []
+                }, 
+                "gridPos": {
+                    "h": 5, 
+                    "w": 3, 
+                    "x": 3, 
+                    "y": 0
+                }, 
+                "id": 9, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal", 
+                    "reduceOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "fields": "", 
+                        "values": false
+                    }, 
+                    "textMode": "auto"
+                }, 
+                "pluginVersion": "8.3.3", 
+                "targets": [
+                    {
+                        "expr": "count(openstack_nova_agent_state{adminState=\"enabled\"})", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "title": "Nova Agent Total", 
+                "type": "stat"
+            }, 
+            {
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "description": "Total number of enabled nova agent", 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": [
+                            {
+                                "targetBlank": true, 
+                                "title": "Show details", 
+                                "url": "/d/temFSsA7k/nova?orgId=1&fullscreen&panelId=11"
+                            }
+                        ], 
+                        "mappings": [
+                            {
+                                "$$hashKey": "object:4020", 
+                                "id": 0, 
+                                "op": "=", 
+                                "text": "N/A", 
+                                "type": 1, 
+                                "value": "null"
+                            }
+                        ], 
+                        "thresholds": {
+                            "mode": "absolute", 
+                            "steps": [
+                                {
+                                    "color": "green", 
+                                    "value": null
+                                }, 
+                                {
+                                    "color": "red", 
+                                    "value": 80
+                                }
+                            ]
+                        }, 
+                        "unit": "none"
+                    }, 
+                    "overrides": []
+                }, 
+                "gridPos": {
+                    "h": 5, 
+                    "w": 3, 
+                    "x": 6, 
+                    "y": 0
+                }, 
+                "id": 15, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal", 
+                    "reduceOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "fields": "", 
+                        "values": false
+                    }, 
+                    "textMode": "auto"
+                }, 
+                "pluginVersion": "8.3.3", 
+                "targets": [
+                    {
+                        "expr": "count(openstack_nova_agent_state{adminState=\"enabled\",service=\"nova-compute\"})", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "title": "Nova Compute Agent Total", 
+                "type": "stat"
+            }, 
+            {
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "description": "Total number of enabled nova agent", 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": [], 
+                        "mappings": [
+                            {
+                                "$$hashKey": "object:4020", 
+                                "id": 0, 
+                                "op": "=", 
+                                "text": "N/A", 
+                                "type": 1, 
+                                "value": "null"
+                            }
+                        ], 
+                        "thresholds": {
+                            "mode": "absolute", 
+                            "steps": [
+                                {
+                                    "color": "green", 
+                                    "value": null
+                                }
+                            ]
+                        }, 
+                        "unit": "none"
+                    }, 
+                    "overrides": []
+                }, 
+                "gridPos": {
+                    "h": 5, 
+                    "w": 3, 
+                    "x": 9, 
+                    "y": 0
+                }, 
+                "id": 16, 
+                "links": [], 
+                "options": {
+                    "colorMode": "value", 
+                    "graphMode": "area", 
+                    "justifyMode": "auto", 
+                    "orientation": "horizontal", 
+                    "reduceOptions": {
+                        "calcs": [
+                            "mean"
+                        ], 
+                        "fields": "", 
+                        "values": false
+                    }, 
+                    "textMode": "auto"
+                }, 
+                "pluginVersion": "8.3.3", 
+                "targets": [
+                    {
+                        "expr": "openstack_glance_images", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "title": "Images Total", 
+                "type": "stat"
+            }, 
+            {
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        }, 
+                        "mappings": [], 
+                        "thresholds": {
+                            "mode": "absolute", 
+                            "steps": [
+                                {
+                                    "color": "green", 
+                                    "value": null
+                                }, 
+                                {
+                                    "color": "red", 
+                                    "value": 80
+                                }
+                            ]
+                        }
+                    }, 
+                    "overrides": []
+                }, 
+                "gridPos": {
+                    "h": 5, 
+                    "w": 12, 
+                    "x": 12, 
+                    "y": 0
+                }, 
+                "id": 14, 
+                "options": {
+                    "displayMode": "gradient", 
+                    "orientation": "horizontal", 
+                    "reduceOptions": {
+                        "calcs": [
+                            "last"
+                        ], 
+                        "fields": "", 
+                        "values": false
+                    }, 
+                    "showUnfilled": true
+                }, 
+                "pluginVersion": "8.3.3", 
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "prometheus", 
+                            "uid": "PBFA97CFB590B2093"
+                        }, 
+                        "exemplar": true, 
+                        "expr": "count(openstack_nova_server_status{status=\"ACTIVE\"})", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "Active", 
+                        "refId": "A"
+                    }, 
+                    {
+                        "datasource": {
+                            "type": "prometheus", 
+                            "uid": "PBFA97CFB590B2093"
+                        }, 
+                        "exemplar": true, 
+                        "expr": "count(openstack_nova_server_status{status=\"SHUTOFF\"})", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "Shutoff", 
+                        "refId": "C"
+                    }, 
+                    {
+                        "datasource": {
+                            "type": "prometheus", 
+                            "uid": "PBFA97CFB590B2093"
+                        }, 
+                        "expr": "count(openstack_nova_server_status)", 
+                        "interval": "", 
+                        "legendFormat": "Total", 
+                        "refId": "B"
+                    }
+                ], 
+                "title": "VM  status", 
+                "type": "bargauge"
+            }, 
+            {
+                "aliasColors": {}, 
+                "bars": false, 
+                "dashLength": 10, 
+                "dashes": false, 
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    }, 
+                    "overrides": []
+                }, 
+                "fill": 1, 
+                "fillGradient": 0, 
+                "gridPos": {
+                    "h": 8, 
+                    "w": 12, 
+                    "x": 0, 
+                    "y": 5
+                }, 
+                "hiddenSeries": false, 
+                "id": 6, 
+                "legend": {
+                    "alignAsTable": true, 
+                    "avg": true, 
+                    "current": true, 
+                    "hideEmpty": false, 
+                    "max": true, 
+                    "min": true, 
+                    "rightSide": true, 
+                    "show": true, 
+                    "total": false, 
+                    "values": true
+                }, 
+                "lines": true, 
+                "linewidth": 1, 
+                "nullPointMode": "null", 
+                "options": {
+                    "alertThreshold": true
+                }, 
+                "percentage": false, 
+                "pluginVersion": "8.3.3", 
+                "pointradius": 2, 
+                "points": false, 
+                "renderer": "flot", 
+                "seriesOverrides": [], 
+                "spaceLength": 10, 
+                "stack": false, 
+                "steppedLine": false, 
+                "targets": [
+                    {
+                        "expr": "openstack_nova_limits_instances_used", 
+                        "interval": "", 
+                        "legendFormat": "{{tenant}} vms", 
+                        "refId": "A"
+                    }, 
+                    {
+                        "expr": "openstack_nova_limits_instances_max", 
+                        "interval": "", 
+                        "legendFormat": "{{tenant}} quota", 
+                        "refId": "B"
+                    }
+                ], 
+                "thresholds": [], 
+                "timeRegions": [], 
+                "title": "Tenant Virtual Machines", 
+                "tooltip": {
+                    "shared": true, 
+                    "sort": 0, 
+                    "value_type": "individual"
+                }, 
+                "type": "graph", 
+                "xaxis": {
+                    "mode": "time", 
+                    "show": true, 
+                    "values": []
+                }, 
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:3131", 
+                        "format": "short", 
+                        "logBase": 1, 
+                        "show": true
+                    }, 
+                    {
+                        "$$hashKey": "object:3132", 
+                        "format": "short", 
+                        "logBase": 1, 
+                        "show": true
+                    }
+                ], 
+                "yaxis": {
+                    "align": false
+                }
+            }, 
+            {
+                "aliasColors": {}, 
+                "bars": false, 
+                "dashLength": 10, 
+                "dashes": false, 
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    }, 
+                    "overrides": []
+                }, 
+                "fill": 1, 
+                "fillGradient": 0, 
+                "gridPos": {
+                    "h": 8, 
+                    "w": 12, 
+                    "x": 12, 
+                    "y": 5
+                }, 
+                "hiddenSeries": false, 
+                "id": 8, 
+                "legend": {
+                    "alignAsTable": true, 
+                    "avg": true, 
+                    "current": true, 
+                    "max": true, 
+                    "min": true, 
+                    "rightSide": true, 
+                    "show": true, 
+                    "total": false, 
+                    "values": true
+                }, 
+                "lines": true, 
+                "linewidth": 1, 
+                "links": [], 
+                "nullPointMode": "null", 
+                "options": {
+                    "alertThreshold": true
+                }, 
+                "percentage": false, 
+                "pluginVersion": "8.3.3", 
+                "pointradius": 2, 
+                "points": false, 
+                "renderer": "flot", 
+                "seriesOverrides": [], 
+                "spaceLength": 10, 
+                "stack": false, 
+                "steppedLine": false, 
+                "targets": [
+                    {
+                        "expr": "openstack_nova_limits_vcpus_used", 
+                        "interval": "", 
+                        "legendFormat": "{{tenant}} used", 
+                        "refId": "A"
+                    }, 
+                    {
+                        "expr": "openstack_nova_limits_vcpus_max", 
+                        "interval": "", 
+                        "legendFormat": "{{tenant}} quota", 
+                        "refId": "B"
+                    }
+                ], 
+                "thresholds": [], 
+                "timeRegions": [], 
+                "title": "Tenant vCPU cores usage", 
+                "tooltip": {
+                    "shared": true, 
+                    "sort": 0, 
+                    "value_type": "individual"
+                }, 
+                "type": "graph", 
+                "xaxis": {
+                    "mode": "time", 
+                    "show": true, 
+                    "values": []
+                }, 
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:3494", 
+                        "format": "short", 
+                        "label": "cores", 
+                        "logBase": 1, 
+                        "show": true
+                    }, 
+                    {
+                        "$$hashKey": "object:3495", 
+                        "format": "short", 
+                        "logBase": 1, 
+                        "show": true
+                    }
+                ], 
+                "yaxis": {
+                    "align": false
+                }
+            }, 
+            {
+                "aliasColors": {}, 
+                "bars": false, 
+                "dashLength": 10, 
+                "dashes": false, 
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    }, 
+                    "overrides": []
+                }, 
+                "fill": 1, 
+                "fillGradient": 0, 
+                "gridPos": {
+                    "h": 8, 
+                    "w": 12, 
+                    "x": 0, 
+                    "y": 13
+                }, 
+                "hiddenSeries": false, 
+                "id": 4, 
+                "legend": {
+                    "alignAsTable": true, 
+                    "avg": true, 
+                    "current": true, 
+                    "hideEmpty": false, 
+                    "max": true, 
+                    "min": true, 
+                    "rightSide": true, 
+                    "show": true, 
+                    "total": false, 
+                    "values": true
+                }, 
+                "lines": true, 
+                "linewidth": 1, 
+                "nullPointMode": "null", 
+                "options": {
+                    "alertThreshold": true
+                }, 
+                "percentage": false, 
+                "pluginVersion": "8.3.3", 
+                "pointradius": 2, 
+                "points": false, 
+                "renderer": "flot", 
+                "seriesOverrides": [], 
+                "spaceLength": 10, 
+                "stack": false, 
+                "steppedLine": false, 
+                "targets": [
+                    {
+                        "expr": "(openstack_nova_limits_memory_used)/ 1024", 
+                        "interval": "", 
+                        "legendFormat": "{{tenant}} used", 
+                        "refId": "A"
+                    }, 
+                    {
+                        "expr": "(openstack_nova_limits_memory_max) / 1024", 
+                        "interval": "", 
+                        "legendFormat": "{{tenant}} quota", 
+                        "refId": "B"
+                    }
+                ], 
+                "thresholds": [], 
+                "timeRegions": [], 
+                "title": "Tenant memory usage (GiB)", 
+                "tooltip": {
+                    "shared": true, 
+                    "sort": 0, 
+                    "value_type": "individual"
+                }, 
+                "type": "graph", 
+                "xaxis": {
+                    "mode": "time", 
+                    "show": true, 
+                    "values": []
+                }, 
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:2204", 
+                        "format": "short", 
+                        "label": "Memory in GiB", 
+                        "logBase": 1, 
+                        "show": true
+                    }, 
+                    {
+                        "$$hashKey": "object:2205", 
+                        "format": "short", 
+                        "label": "Time", 
+                        "logBase": 1, 
+                        "show": true
+                    }
+                ], 
+                "yaxis": {
+                    "align": false
+                }
+            }, 
+            {
+                "aliasColors": {}, 
+                "bars": false, 
+                "dashLength": 10, 
+                "dashes": false, 
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    }, 
+                    "overrides": []
+                }, 
+                "fill": 1, 
+                "fillGradient": 0, 
+                "gridPos": {
+                    "h": 8, 
+                    "w": 12, 
+                    "x": 12, 
+                    "y": 13
+                }, 
+                "hiddenSeries": false, 
+                "id": 12, 
+                "legend": {
+                    "alignAsTable": true, 
+                    "avg": true, 
+                    "current": true, 
+                    "hideEmpty": false, 
+                    "max": true, 
+                    "min": true, 
+                    "rightSide": true, 
+                    "show": true, 
+                    "total": false, 
+                    "values": true
+                }, 
+                "lines": true, 
+                "linewidth": 1, 
+                "links": [], 
+                "nullPointMode": "null", 
+                "options": {
+                    "alertThreshold": true
+                }, 
+                "percentage": false, 
+                "pluginVersion": "8.3.3", 
+                "pointradius": 2, 
+                "points": false, 
+                "renderer": "flot", 
+                "seriesOverrides": [], 
+                "spaceLength": 10, 
+                "stack": false, 
+                "steppedLine": false, 
+                "targets": [
+                    {
+                        "expr": "(openstack_nova_local_storage_used_bytes) / 1024 / 1024 / 1024", 
+                        "format": "time_series", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "{{hostname}} used", 
+                        "refId": "A"
+                    }, 
+                    {
+                        "expr": "(openstack_nova_local_storage_available_bytes) / 1024 / 1024 / 1024", 
+                        "instant": false, 
+                        "interval": "", 
+                        "legendFormat": "{{hostname}} total", 
+                        "refId": "B"
+                    }
+                ], 
+                "thresholds": [], 
+                "timeRegions": [], 
+                "title": "Host local storage", 
+                "tooltip": {
+                    "shared": true, 
+                    "sort": 0, 
+                    "value_type": "individual"
+                }, 
+                "type": "graph", 
+                "xaxis": {
+                    "mode": "time", 
+                    "show": true, 
+                    "values": []
+                }, 
+                "yaxes": [
+                    {
+                        "$$hashKey": "object:3131", 
+                        "format": "short", 
+                        "logBase": 1, 
+                        "show": true
+                    }, 
+                    {
+                        "$$hashKey": "object:3132", 
+                        "format": "short", 
+                        "logBase": 1, 
+                        "show": true
+                    }
+                ], 
+                "yaxis": {
+                    "align": false
+                }
+            }, 
+            {
+                "columns": [], 
+                "datasource": {
+                    "type": "prometheus", 
+                    "uid": "PBFA97CFB590B2093"
+                }, 
+                "description": "Nova agents status details info", 
+                "fontSize": "100%", 
+                "gridPos": {
+                    "h": 12, 
+                    "w": 24, 
+                    "x": 0, 
+                    "y": 21
+                }, 
+                "id": 11, 
+                "links": [], 
+                "pageSize": 100, 
+                "showHeader": true, 
+                "sort": {
+                    "col": 0, 
+                    "desc": true
+                }, 
+                "styles": [
+                    {
+                        "$$hashKey": "object:4456", 
+                        "alias": "", 
+                        "align": "right", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "decimals": 2, 
+                        "pattern": "job", 
+                        "thresholds": [], 
+                        "type": "hidden", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:4639", 
+                        "alias": "", 
+                        "align": "auto", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "instance", 
+                        "thresholds": [], 
+                        "type": "hidden", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:4650", 
+                        "alias": "", 
+                        "align": "auto", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "__name__", 
+                        "thresholds": [], 
+                        "type": "hidden", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:4713", 
+                        "alias": "Update time", 
+                        "align": "auto", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "Time", 
+                        "thresholds": [], 
+                        "type": "date", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:4766", 
+                        "alias": "Admin state", 
+                        "align": "auto", 
+                        "colorMode": "cell", 
+                        "colors": [
+                            "rgba(50, 172, 45, 0.97)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(245, 54, 54, 0.9)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "link": false, 
+                        "mappingType": 1, 
+                        "pattern": "adminState", 
+                        "preserveFormat": false, 
+                        "sanitize": false, 
+                        "thresholds": [
+                            ""
+                        ], 
+                        "type": "string", 
+                        "unit": "short", 
+                        "valueMaps": []
+                    }, 
+                    {
+                        "$$hashKey": "object:6067", 
+                        "alias": "Hostname", 
+                        "align": "auto", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "hostname", 
+                        "thresholds": [], 
+                        "type": "string", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:439", 
+                        "alias": "Agent Name", 
+                        "align": "auto", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "service", 
+                        "thresholds": [], 
+                        "type": "string", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:460", 
+                        "alias": "", 
+                        "align": "auto", 
+                        "colors": [
+                            "#E02F44", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "zone", 
+                        "thresholds": [], 
+                        "type": "string", 
+                        "unit": "short"
+                    }, 
+                    {
+                        "$$hashKey": "object:1347", 
+                        "alias": "Staus", 
+                        "align": "auto", 
+                        "colorMode": "cell", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "#FF780A", 
+                            "#37872D"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "Value", 
+                        "thresholds": [
+                            "0", 
+                            "1"
+                        ], 
+                        "type": "string", 
+                        "unit": "short", 
+                        "valueMaps": [
+                            {
+                                "$$hashKey": "object:1374", 
+                                "text": "Down", 
+                                "value": "0"
+                            }, 
+                            {
+                                "$$hashKey": "object:1376", 
+                                "text": "Up", 
+                                "value": "1"
+                            }
+                        ]
+                    }, 
+                    {
+                        "$$hashKey": "object:5344", 
+                        "alias": "", 
+                        "align": "auto", 
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)", 
+                            "rgba(237, 129, 40, 0.89)", 
+                            "rgba(50, 172, 45, 0.97)"
+                        ], 
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss", 
+                        "decimals": 2, 
+                        "mappingType": 1, 
+                        "pattern": "/.*/", 
+                        "thresholds": [], 
+                        "type": "number", 
+                        "unit": "short"
+                    }
+                ], 
+                "targets": [
+                    {
+                        "expr": "openstack_nova_agent_state", 
+                        "format": "table", 
+                        "instant": true, 
+                        "interval": "", 
+                        "legendFormat": "", 
+                        "refId": "A"
+                    }
+                ], 
+                "title": "Nova agents details", 
+                "transform": "table", 
+                "transparent": true, 
+                "type": "table-old"
+            }
+        ], 
+        "refresh": "", 
+        "schemaVersion": 34, 
+        "style": "dark", 
+        "tags": [], 
+        "templating": {
+            "list": []
+        }, 
+        "time": {
+            "from": "now-2h",
+            "to": "now"
+        }, 
+        "timepicker": {
+            "refresh_intervals": [
+                "5s", 
+                "10s", 
+                "30s", 
+                "1m", 
+                "5m", 
+                "15m", 
+                "30m", 
+                "1h", 
+                "2h", 
+                "1d"
+            ]
+        }, 
+        "timezone": "", 
+        "title": "Nova", 
+        "uid": "temFSsA7k", 
+        "version": 43, 
+        "weekStart": ""
+    }
+}

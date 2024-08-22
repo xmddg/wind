@@ -1,0 +1,44 @@
+groups:
+  - name: vm.rules
+    rules:
+      - alert: '【云主机】云主机CPU使用率超过70%'
+        expr:  90 > avg by (domain) (irate(libvirt_domain_vcpu_time_seconds_total[5m])) *on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta)*100 > 70
+        for: 5m
+        labels:
+          alert_id: vm000001
+          alertgroup: vm
+          severity: warning
+          effect_range: cluster_capacity
+          description: "云主机 {{ $labels.instance_name }} cpu使用率超过70% "
+          solution: "【云主机】云主机CPU使用率超过70%"
+      - alert: '【云主机】云主机CPU使用率超过90%'
+        expr:  avg by (domain) (irate(libvirt_domain_vcpu_time_seconds_total[5m])) *on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta)*100 > 90
+        for: 5m
+        labels:
+          alert_id: vm000002
+          alertgroup: vm
+          severity: critical
+          effect_range: cluster_capacity
+          description: "云主机 {{ $labels.instance_name }} cpu使用率超过90% "
+          solution: "【云主机】云主机CPU使用率超过90%"
+      - alert: '【云主机】云主机内存使用率超过70%'
+        expr:  90 > libvirt_domain_memory_stats_used_percent * on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta) > 70
+        for: 5m
+        labels:
+          alert_id: vm000003
+          alertgroup: vm
+          severity: warning
+          effect_range: cluster_capacity
+        annotations:
+          description: "云主机 {{ $labels.instance_name }} 内存使用率超过70% "
+          solution: "【云主机】云主机内存使用率超过70%"
+      - alert: '【云主机】云主机内存使用率超过90%'
+        expr:  libvirt_domain_memory_stats_used_percent * on (domain) group_right count by (domain, instance_name, uuid) (libvirt_domain_info_meta) > 90
+        for: 5m
+        labels:
+          alert_id: vm000004
+          alertgroup: vm
+          severity: critical
+          effect_range: cluster_capacity
+          description: "云主机 {{ $labels.instance_name }} 内存使用率超过90% "
+          solution: "【云主机】云主机内存使用率超过70%"

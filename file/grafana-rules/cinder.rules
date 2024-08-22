@@ -1,0 +1,35 @@
+groups:
+  - name: cinder.rules
+    rules:
+      - alert: '【服务】存储服务停止服务'
+        expr:  openstack_cinder_agent_state == 0
+        for: 5m
+        labels:
+          alert_id: sv000005
+          alertgroup: service
+          severity: critical
+          effect_range: cluster_capacity
+          description: '{{ $labels.hostname }} 节点存储服务停止服务'
+          solution: "【服务】存储服务停止服务"
+      - alert: '【服务】租户存储配额使用超过70%'
+        expr: 90 > openstack_cinder_limits_volume_used_gb/openstack_cinder_limits_volume_max_gb * 100 > 70
+        for: 5m
+        labels:
+          alert_id: sv000006
+          alertgroup: service
+          severity: critical
+          effect_range: cluster_capacity
+          description: '租户存储配额使用超过70%'
+          solution: ‘请及时扩容租户配额’
+          summary: "租户存储配额使用超过70%"
+      - alert: '【服务】租户存储配额使用超过90%'
+        expr: openstack_cinder_limits_volume_used_gb/openstack_cinder_limits_volume_max_gb * 100 > 90
+        for: 5m
+        labels:
+          alert_id: sv000007
+          alertgroup: service
+          severity: critical
+          effect_range: cluster_capacity
+          description: '租户存储配额使用超过90%'
+          solution: ‘请及时扩容租户配额’
+          summary: "租户v存储配额使用超过90%"

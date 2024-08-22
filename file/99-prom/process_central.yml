@@ -1,0 +1,135 @@
+---
+groups:
+  - name: processIsNotRunning
+    rules:
+{% set processes_mapping = {
+  'control': [
+    'nova-api',
+    'nova-schduler',
+    'nova-conductor',
+    'nova-consoleauth',
+    'nova-novncproxy',
+    'neutron-server',
+    'neutron-dhcp-agent',
+    'neutron-l3-agent',
+    'neutron-openvswitch-agent',
+    'ovs-vswitchd',
+    'ovsdb-server',
+    'cinder-api',
+    'cinder-schedule',
+    'ceilometer-agent-notification',
+    'ceilometer-polling',
+    'ntpd',
+    'rabbitmq-server',
+    'mysqld',
+    'haproxy',
+    'heat-engine',
+    'sshd',
+    'filebeat'],
+  'compute': [
+    'libvirtd',
+    'nova-compute',
+    'ovs-vswitchd',
+    'ovsdb-server',
+    'ntpd',
+    'neutron-openvswitch-agent',
+    'ceilometer-polling',
+    'sshd',
+    'filebeat']}
+%}
+{% import 'processRules.yml' as processRules %}
+{% set interval = '1m' %}
+{% for role, processes in processes_mapping.items() %}
+{% for process in processes %}
+[[ processRules.processRules(process, role, interval) ]]
+{% endfor %}
+{% endfor %}
+  - name: processesNumberAlarms
+    rules:
+      - alert: zombieProcessAppears
+        expr: >
+          node_processes_state{state="Z"} >= 10
+        for: 10m
+        labels:
+          severity: Warning
+          description_id: 314
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: process
+        annotations:
+          description: >-
+            There are more than 10 zombie processes on node {{ $labels.hostname }}.
+          summary: >-
+            There are more than 10 zombie processes on node {{ $labels.hostname }}.
+          description_template: >-
+            There are more than 10 zombie processes on node %(hostname)s.
+          summary_template: >-
+            There are more than 10 zombie processes on node %(hostname)s.
+          suggestion: >-
+            Please login the host {{ $labels.hostname }} to see
+            if the zombie process is still there.
+          suggestion_template: >-
+            Please login the host %(hostname)s to see
+            if the zombie process is still there.
+          resource_type: physical.node
+          sub_resource_type: process
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+
+      - alert: tooManyProcesses
+        expr: >
+          node_processes_pids >= 4000
+        labels:
+          severity: Warning
+          description_id: 316
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: process
+        annotations:
+          description: >-
+            Too many processes on node {{ $labels.hostname }}.
+          summary: >-
+            Too many processes on node {{ $labels.hostname }}.
+          description_template: >-
+            Too many processes on node %(hostname)s.
+          summary_template: >-
+            Too many processes on node %(hostname)s.
+          suggestion: >-
+            Please login the host {{ $labels.hostname }} to see
+            what causes a lot of processes.
+          suggestion_template: >-
+            Please login the host %(hostname)s to see
+            what causes a lot of processes.
+          resource_type: physical.node
+          sub_resource_type: process
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+
+      - alert: tooManyRunningProcesses
+        expr: >
+          node_processes_state{state="R"} >= 800
+        labels:
+          severity: Warning
+          description_id: 318
+          tenant: __cluster__
+          resource_type: physical.node
+          sub_resource_type: process
+        annotations:
+          description: >-
+            Too many running processes on node {{ $labels.hostname }}.
+          summary: >-
+            Too many running processes on node {{ $labels.hostname }}.
+          description_template: >-
+            Too many running processes on node %(hostname)s.
+          summary_template: >-
+            Too many running processes on node %(hostname)s.
+          suggestion: >-
+            Please login the host {{ $labels.hostname }} to see
+            what causes a lot of running processes.
+          suggestion_template: >-
+            Please login the host %(hostname)s to see
+            what causes a lot of running processes.
+          resource_type: physical.node
+          sub_resource_type: process
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

@@ -1,0 +1,68 @@
+{% macro rules(network) %}
+{% if network != '' %}
+  - name: [[ network ]]NetworkAlarms
+    rules:
+      - alert: [[ network ]]NetworkIsInterruption
+        expr: physical:node:network:[[ network ]]:up == 0
+        for: 1s
+        labels:
+          severity: Critical
+          description_id: 101
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: link
+        annotations:
+          description: >-
+            the [[ network ]] network link of {{ $labels.hostname }} interruption.
+          summary: >-
+            the [[ network ]] network link of {{ $labels.hostname }} interruption.
+          description_template: >-
+            the [[ network ]] network link of %(hostname)s interruption.
+          summary_template: >-
+            the [[ network ]] network link of %(hostname)s interruption.
+          suggestion: >-
+            Please check the link of the {{ $labels.hostname }}, may be the
+            [[ network ]] interfaces of the {{ $labels.hostname }} host is down.
+          suggestion_template: >-
+            Please check the link of the %(hostname)s, may be the [[ network ]]
+            interfaces of the %(hostname)s is down.
+          resource_type: physical.network
+          sub_resource_type: link
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+      - alert: [[ network ]]NetworkIsWarning
+        expr: >
+          physical:node:network:[[ network ]]:up > 0 < physical:node:network:[[ network ]]:count
+        for: 1s
+        labels:
+          severity: Major
+          description_id: 102
+          tenant: __cluster__
+          resource_type: physical.network
+          sub_resource_type: link
+        annotations:
+          description: >-
+            the [[ network ]] network link of {{ $labels.hostname }} major alert.
+          summary: >-
+            the [[ network ]] network link of {{ $labels.hostname }} major alert.
+          description_template: >-
+            the [[ network ]] network link of %(hostname)s major alert.
+          summary_template: >-
+            the [[ network ]] network link of %(hostname)s major alert.
+          suggestion: >-
+            Please check the link of the {{ $labels.hostname }}, may be one of the
+            [[ network ]] interfaces on the {{ $labels.hostname }} is down.
+          suggestion_template: >-
+            Please check the link of the %(hostname)s, may be one of the [[ network ]]
+            interfaces on the %(hostname)s is down.
+          resource_type: physical.network
+          sub_resource_type: link
+          alert_target: "{{ $labels.hostname }}"
+          alert_target_id: "{{ $labels.serialnumber }}"
+{% endif %}
+{% endmacro %}
+---
+groups:
+[[ rules('management') ]]
+[[ rules('storage') ]]
+[[ rules('business') ]]

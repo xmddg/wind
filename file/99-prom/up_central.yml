@@ -1,0 +1,34 @@
+---
+groups:
+  - name: targetAlarms
+    rules:
+      - alert: targetIsDown
+        # FIXME(zhangmeng) only up{job="ssl_exporter"} jitter?
+        expr: up{job!="ssl_exporter"} == 0
+        for: 5m
+        labels:
+          severity: Critical
+          description_id: 701
+          tenant: __cluster__
+          resource_type: virtual.prometheus
+          sub_resource_type: target
+        annotations:
+          description: >-
+            job {{ $labels.job }} that listened on target {{ $labels.instance }} is down.
+          summary: >-
+            job {{ $labels.job }} that listened on target {{ $labels.instance }} is down.
+          description_template: >-
+            job %(job)s that listened on target %(instance)s is down.
+          summary_template: >-
+            job %(job)s that listened on target %(instance)s is down.
+          suggestion: >-
+            please check whether the job {{ $labels.job }} that listened on target
+            {{ $labels.instance }} is down or check the link between target
+            {{ $labels.instance }} and prometheus-server.
+          suggestion_template: >-
+            please check whether job %(job)s that listened on target %(instance)s is
+            down or check the link between target %(instance)s and prometheus-server.
+          resource_type: virtual.prometheus
+          sub_resource_type: target
+          alert_target: "{{ $labels.instance }}"
+          alert_target_id: "{{ $labels.serialnumber }}"

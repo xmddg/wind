@@ -1,0 +1,151 @@
+---
+groups:
+  - name: WatchdogAlarms
+    rules:
+      - alert: vmResetedByWatchdog
+        expr: delta(os_instance_watchdog_event_total{type="reset"}[5m]) > 0
+        labels:
+          severity: Major
+          description_id: 602
+          tenant: __cluster__
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+        annotations:
+          description: >-
+            vm {{ $labels.instance_name }} is reseted by watchdog reset action.
+          summary: >-
+            vm {{ $labels.instance_name }} is reseted by watchdog reset action.
+          description_template: >-
+            vm %(instance_name)s is reseted by watchdog reset action.
+          summary_template: >-
+            vm %(instance_name)s is reseted by watchdog reset action.
+          suggestion: >-
+            vm {{ $labels.instance_name }} is reseted by watchdog reset action, please check.
+          suggestion_template: >-
+            vm %(instance_name)s is reseted by watchdog reset action, please check.
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+          alert_target: "{{ $labels.instance_name }}"
+          alert_target_id: "{{ $labels.instance_uuid }}"
+      - alert: vmWatchdogOccurNoneEvent
+        expr: delta(os_instance_watchdog_event_total{type="none"}[5m]) > 0
+        labels:
+          severity: Major
+          description_id: 604
+          tenant: __cluster__
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+        annotations:
+          description: >-
+            vm {{ $labels.instance_name }} occur none event by watchdog none action.
+          summary: >-
+            vm {{ $labels.instance_name }} occur none event by watchdog none action.
+          description_template: >-
+            vm %(instance_name)s occur none event by watchdog none action.
+          summary_template: >-
+            vm %(instance_name)s occur none event by watchdog none action.
+          suggestion: >-
+            vm {{ $labels.instance_name }} occur none event by watchdog none action, please check.
+          suggestion_template: >-
+            vm %(instance_name)s occur none event by watchdog none action, please check.
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+          alert_target: "{{ $labels.instance_name }}"
+          alert_target_id: "{{ $labels.instance_uuid }}"
+      - alert: vmPausedByWatchdog
+        expr: delta(os_instance_watchdog_event_total{type="pause"}[5m]) > 0
+        labels:
+          severity: Major
+          description_id: 606
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+        annotations:
+          description: >-
+            vm {{ $labels.instance_name }} is paused by watchdog pause action.
+          summary: >-
+            vm {{ $labels.instance_name }} is paused by watchdog pause action.
+          description_template: >-
+            vm %(instance_name)s is paused by watchdog pause action.
+          summary_template: >-
+            vm %(instance_name)s is paused by watchdog pause action.
+          suggestion: >-
+            vm {{ $labels.instance_name }} is paused by watchdog pause action, please check.
+          suggestion_template: >-
+            vm %(instance_name)s is paused by watchdog pause action, please check
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+          alert_target: "{{ $labels.instance_name }}"
+          alert_target_id: "{{ $labels.instance_uuid }}"
+      - alert: vmPoweroffedByWatchdog
+        expr: delta(os_instance_watchdog_event_total{type="poweroff"}[5m]) > 0
+        labels:
+          severity: Major
+          description_id: 608
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+        annotations:
+          description: >-
+            vm {{ $labels.instance_name }} is poweroffed by watchdog poweroff action.
+          summary: >-
+            vm {{ $labels.instance_name }} is poweroffed by watchdog poweroff action.
+          description_template: >-
+            vm %(instance_name)s is poweroffed by watchdog poweroff action.
+          summary_template: >-
+            vm %(instance_name)s is poweroffed by watchdog poweroff action.
+          suggestion: >-
+            vm {{ $labels.instance_name }} is poweroffed by watchdog poweroff action, please check.
+          suggestion_template: >-
+            vm %(instance_name)s is poweroffed by watchdog poweroff action, please check.
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+          alert_target: "{{ $labels.instance_name }}"
+          alert_target_id: "{{ $labels.instance_uuid }}"
+      - alert: vmShutdownByWatchdog
+        expr: delta(os_instance_watchdog_event_total{type="shutdown"}[5m]) > 0
+        labels:
+          severity: Major
+          description_id: 610
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+        annotations:
+          description: >-
+            vm {{ $labels.instance_name }} is shutdowned by watchdog shutdown action.
+          summary: >-
+            vm {{ $labels.instance_name }} is shutdowned by watchdog shutdown action.
+          description_template: >-
+            vm %(instance_name)s is shutdowned by watchdog shutdown action.
+          summary_template: >-
+            vm %(instance_name)s is shutdowned by watchdog shutdown action.
+          suggestion: >-
+            vm {{ $labels.instance_name }} is shutdowned by watchdog shutdown action, please check.
+          suggestion_template: >-
+            vm %(instance_name)s is shutdowned by watchdog shutdown action, please check.
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+          alert_target: "{{ $labels.instance_name }}"
+          alert_target_id: "{{ $labels.instance_uuid }}"
+      - alert: vmWatchdogNotRuning
+        expr: delta(os_instance_watchdog_event_total{type="debug"}[5m]) == 0 and delta(os_instance_watchdog_event_total{type=~"reset|shutdown|poweroff|pause|none"}[5m]) == 0
+        for: 5m
+        labels:
+          severity: Major
+          description_id: 612
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+        annotations:
+          description: >-
+            vm {{ $labels.instance_name }} watchdog is not running.
+          summary: >-
+            vm {{ $labels.instance_name }} watchdog is not running.
+          description_template: >-
+            vm %(instance_name)s watchdog is not running.
+          summary_template: >-
+            vm %(instance_name)s watchdog is not running.
+          suggestion: >-
+            vm {{ $labels.instance_name }} watchdog is not running, please check.
+          suggestion_template: >-
+            vm %(instance_name)s watchdog is not running, please check.
+          resource_type: virtual.vm
+          sub_resource_type: watchdog
+          alert_target: "{{ $labels.instance_name }}"
+          alert_target_id: "{{ $labels.instance_uuid }}"
